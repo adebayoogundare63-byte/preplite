@@ -1,0 +1,3920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <title>PREP-LITE — CBT Practice for Nigerian Students</title>
+  <style>
+/* ========================================================
+   PREP-LITE — CBT Platform CSS
+   Theme: Dark-first, sleek professional, Nigerian students
+   ======================================================== */
+
+/* ── CSS Variables ── */
+:root {
+  --bg: #0a0c12;
+  --bg2: #111420;
+  --bg3: #181c2b;
+  --card: #161a27;
+  --card2: #1e2336;
+  --border: #252c42;
+  --text: #e8ecf5;
+  --text2: #8b94b5;
+  --text3: #5a6380;
+  --accent: #4f8ef7;
+  --accent2: #6fa8ff;
+  --accent-glow: rgba(79, 142, 247, 0.18);
+  --green: #22c55e;
+  --green-bg: rgba(34, 197, 94, 0.12);
+  --red: #f43f5e;
+  --red-bg: rgba(244, 63, 94, 0.12);
+  --orange: #f97316;
+  --orange-bg: rgba(249, 115, 22, 0.15);
+  --yellow: #facc15;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 48px rgba(0,0,0,0.5);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font: 'Sora', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --bg: #f0f3fb;
+  --bg2: #e8ecf7;
+  --bg3: #dde3f2;
+  --card: #ffffff;
+  --card2: #f5f7fe;
+  --border: #d0d8ef;
+  --text: #111827;
+  --text2: #4b5563;
+  --text3: #9ca3af;
+  --accent: #2563eb;
+  --accent2: #3b82f6;
+  --accent-glow: rgba(37, 99, 235, 0.12);
+  --shadow: 0 4px 24px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 48px rgba(0,0,0,0.14);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+  overflow-x: hidden;
+}
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+input, select { font-family: var(--font); }
+a { color: var(--accent); }
+img { max-width: 100%; }
+
+/* ── Screens ── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+#screen-quiz.active { display: flex; flex-direction: column; }
+
+/* ========================================================
+   LANDING PAGE
+   ======================================================== */
+#screen-landing {
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-bg {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none;
+}
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.4;
+}
+.bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+}
+.glow-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #4f8ef7, transparent 70%);
+  top: -150px; right: -100px;
+  animation: floatGlow 8s ease-in-out infinite;
+}
+.glow-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #22c55e, transparent 70%);
+  bottom: -100px; left: -80px;
+  animation: floatGlow 10s ease-in-out infinite reverse;
+}
+@keyframes floatGlow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, 30px) scale(1.05); }
+}
+
+.landing-wrap {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 640px;
+  padding: 24px;
+}
+
+.land-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 64px;
+  animation: fadeInDown 0.6s ease both;
+}
+
+.logo-mark {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-icon {
+  font-size: 28px;
+  color: var(--accent);
+  animation: spin 20s linear infinite;
+  display: inline-block;
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.logo-text {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--text);
+}
+.logo-accent { color: var(--accent); }
+.logo-mark.small .logo-icon { font-size: 20px; }
+.logo-mark.small .logo-text { font-size: 16px; }
+
+.theme-toggle {
+  width: 40px; height: 40px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text);
+  font-size: 16px;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+}
+.theme-toggle:hover { background: var(--card2); border-color: var(--accent); }
+
+.land-main { animation: fadeInUp 0.7s 0.1s ease both; }
+
+.student-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow);
+}
+
+.student-view,
+.student-setup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.student-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent), #22c55e);
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  box-shadow: 0 12px 30px rgba(34, 132, 255, 0.16);
+}
+
+.student-info {
+  min-width: 0;
+}
+
+.student-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.student-meta {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+.student-card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.sc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.sc-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  background: var(--card2);
+}
+
+.sc-btn.sc-btn-add {
+  background: var(--accent);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 16px 36px rgba(79, 142, 247, 0.18);
+}
+
+.sc-btn.sc-btn-add:hover {
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+}
+
+.student-setup-icon {
+  font-size: 28px;
+}
+
+.student-setup-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.student-setup-text strong {
+  font-size: 16px;
+  color: var(--text);
+}
+
+.student-setup-text span {
+  font-size: 14px;
+  color: var(--text2);
+}
+
+@media (max-width: 660px) {
+  .student-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .student-card-actions {
+    justify-content: flex-end;
+    width: 100%;
+  }
+}
+
+.land-badge {
+  display: inline-block;
+  background: var(--accent-glow);
+  border: 1px solid rgba(79, 142, 247, 0.3);
+  color: var(--accent2);
+  font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.land-title {
+  font-size: clamp(36px, 7vw, 64px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+.title-highlight {
+  color: transparent;
+  background: linear-gradient(135deg, var(--accent), #22c55e);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.land-sub {
+  font-size: 16px; color: var(--text2);
+  line-height: 1.7; margin-bottom: 40px;
+  max-width: 440px;
+}
+
+.land-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.btn-primary, .btn-secondary {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 24px; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600;
+  transition: all var(--transition);
+  flex: 1; min-width: 200px;
+  cursor: pointer;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(79, 142, 247, 0.4);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(79, 142, 247, 0.55);
+}
+.btn-secondary {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: var(--card2);
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 12px 24px; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-icon { font-size: 22px; }
+.btn-primary span strong,
+.btn-secondary span strong { display: block; font-size: 15px; }
+.btn-primary span small,
+.btn-secondary span small { display: block; font-size: 11px; opacity: 0.75; margin-top: 1px; }
+
+.land-stats {
+  display: flex; align-items: center; gap: 24px;
+  animation: fadeInUp 0.7s 0.3s ease both;
+}
+.stat { text-align: center; }
+.stat-num { display: block; font-size: 22px; font-weight: 700; color: var(--accent); font-family: var(--mono); }
+.stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; }
+.stat-div { width: 1px; height: 36px; background: var(--border); }
+
+/* ========================================================
+   SETUP SCREENS
+   ======================================================== */
+#screen-practice-setup,
+#screen-exam-setup {
+  flex-direction: column;
+}
+
+.setup-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  position: sticky; top: 0; z-index: 50;
+}
+
+.back-btn {
+  color: var(--text2);
+  font-size: 14px; font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card);
+  transition: all var(--transition);
+}
+.back-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+.setup-body {
+  max-width: 700px; width: 100%;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.setup-title {
+  font-size: 28px; font-weight: 800; letter-spacing: -1px;
+  margin-bottom: 6px;
+}
+.setup-sub {
+  color: var(--text2); font-size: 14px; margin-bottom: 32px;
+}
+
+.mode-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 28px;
+}
+@media (max-width: 480px) { .mode-cards { grid-template-columns: 1fr; } }
+
+.mode-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font);
+  color: var(--text);
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.mode-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--accent-glow);
+  opacity: 0; transition: opacity var(--transition);
+}
+.mode-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.mode-card:hover::before { opacity: 1; }
+.mode-card.selected { border-color: var(--accent); background: var(--card2); }
+.mode-card.selected::before { opacity: 1; }
+.mode-card-icon { font-size: 32px; margin-bottom: 12px; }
+.mode-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.mode-card p { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.mode-card-check {
+  position: absolute; top: 14px; right: 14px;
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid var(--border);
+  transition: all var(--transition);
+}
+.mode-card.selected .mode-card-check {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.mode-card.selected .mode-card-check::after {
+  content: '✓';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px; color: #fff; font-weight: 700;
+}
+
+.config-section { margin-bottom: 24px; animation: fadeInUp 0.4s ease both; }
+.field-label {
+  display: block;
+  font-size: 13px; font-weight: 600; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.7px;
+  margin-bottom: 10px;
+}
+.field-select {
+  width: 100%; padding: 12px 16px;
+  background: var(--card); color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  transition: border-color var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b94b5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.field-select:focus { outline: none; border-color: var(--accent); }
+.field-input {
+  padding: 12px 16px;
+  background: var(--card); color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px; width: 100%;
+  transition: border-color var(--transition);
+}
+.field-input:focus { outline: none; border-color: var(--accent); }
+.field-hint { font-size: 12px; color: var(--text3); margin-top: 8px; }
+
+.subject-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px; margin-bottom: 8px;
+}
+.subject-chip {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text2);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition);
+  text-transform: capitalize;
+}
+.subject-chip:hover { border-color: var(--accent); color: var(--text); }
+.subject-chip.selected {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent2);
+}
+.subject-chip.disabled { opacity: 0.45; cursor: not-allowed; }
+
+.timer-options {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;
+}
+.timer-btn {
+  min-width: 92px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  transition: all var(--transition);
+}
+.timer-btn:hover { border-color: var(--accent); }
+.timer-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.custom-timer {
+  display: flex; gap: 10px; align-items: center; margin-bottom: 10px;
+}
+.btn-small {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+.btn-start {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 10px;
+  transition: all var(--transition);
+}
+.btn-start:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* ========================================================
+   EXAM SCREEN
+   ======================================================== */
+.exam-info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.subject-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+}
+.subject-badge.compulsory { background: rgba(79, 142, 247, 0.18); color: var(--accent2); }
+.subject-name { display: block; font-size: 16px; font-weight: 700; margin-top: 10px; }
+.subject-qs { color: var(--text2); font-size: 13px; margin-top: 6px; }
+
+/* ========================================================
+   QUIZ SCREEN
+   ======================================================== */
+.quiz-layout { width: 100%; }
+.quiz-main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+}
+.quiz-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.header-logo { display: flex; align-items: center; gap: 10px; }
+.header-timer { display: flex; align-items: center; gap: 10px; }
+.timer-display {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--mono);
+  color: var(--text);
+}
+.timer-display.warning { border-color: var(--yellow); }
+.timer-display.danger { border-color: var(--red); color: var(--red); }
+
+.quiz-subject-bar {
+  margin-top: 22px;
+  margin-bottom: 16px;
+}
+.quiz-subject-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.question-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 18px;
+}
+.q-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.q-number, .q-subject { font-weight: 700; }
+.q-text { font-size: 18px; line-height: 1.6; margin-bottom: 20px; }
+.options-list { display: grid; gap: 12px; }
+.option-btn {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%;
+  text-align: left;
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all var(--transition);
+}
+.option-btn:hover { border-color: var(--accent); }
+.option-btn.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.option-letter {
+  min-width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.option-text { flex: 1; }
+
+.progress-block { margin-top: 20px; }
+.progress-bar-wrap {
+  width: 100%; height: 10px;
+  background: var(--card);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #22c55e);
+  width: 0%;
+  transition: width 0.25s ease;
+}
+.progress-text { font-size: 13px; color: var(--text2); }
+
+.quiz-nav-mobile {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-top: 18px;
+}
+.nav-btn {
+  flex: 1; min-width: 110px;
+  padding: 14px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+}
+.nav-btn:hover { border-color: var(--accent); }
+.flag-btn { border-color: var(--yellow); }
+.skip-btn { border-color: var(--accent2); }
+.next-btn { border-color: var(--green); }
+.next-btn:hover, .skip-btn:hover, .flag-btn:hover { transform: translateY(-1px); }
+
+.btn-submit-mobile {
+  width: 100%;
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  color: #fff;
+  font-weight: 700;
+}
+
+.palette-section {
+  margin-top: 24px;
+}
+.palette-title { font-weight: 700; margin-bottom: 10px; }
+.palette-legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--text2); font-size: 12px; }
+.pal-dot {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+.pal-dot.unanswered { background: var(--border); }
+.pal-dot.answered { background: var(--green); }
+.pal-dot.current { background: var(--accent); }
+.pal-dot.flagged { background: var(--yellow); }
+.palette-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
+  gap: 10px; margin-top: 12px;
+}
+.palette-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.palette-toggle-btn {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-weight: 700;
+  transition: all var(--transition);
+}
+.palette-toggle-btn:hover {
+  border-color: var(--accent);
+  background: var(--card2);
+}
+.palette-section.collapsed .palette-legend,
+.palette-section.collapsed .palette-grid {
+  display: none;
+}
+.palette-section.collapsed {
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+.pal-btn {
+  padding: 12px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-weight: 700;
+}
+.pal-btn.current { border-color: var(--accent); background: var(--accent-glow); }
+.pal-btn.answered { background: rgba(34,197,94,0.1); }
+.pal-btn.flagged { background: rgba(249,115,22,0.1); }
+
+/* ========================================================
+   RESULTS SCREEN
+   ======================================================== */
+.results-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+}
+.results-header { padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
+.grade-card {
+  display: flex; align-items: center; gap: 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.grade-ring {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--bg2);
+  border: 6px solid var(--border);
+}
+.grade-ring.A { border-color: #22c55e; }
+.grade-ring.B { border-color: #3b82f6; }
+.grade-ring.C { border-color: #f59e0b; }
+.grade-ring.D { border-color: #f97316; }
+.grade-ring.F { border-color: #ef4444; }
+.grade-letter {
+  font-size: 40px; font-weight: 800;
+}
+.grade-score { font-size: 28px; font-weight: 800; margin-top: 6px; }
+.grade-label { color: var(--text2); margin-top: 6px; }
+
+.db-saved-banner {
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid rgba(34,197,94,0.3);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 18px;
+}
+
+.results-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; margin-bottom: 20px;
+}
+.result-stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+.rs-icon { display: block; font-size: 18px; margin-bottom: 8px; }
+.rs-val { font-size: 20px; font-weight: 700; }
+.rs-lbl { color: var(--text2); font-size: 12px; }
+.rs-icon.correct { color: var(--green); }
+.rs-icon.wrong { color: var(--red); }
+.rs-icon.skipped { color: var(--text2); }
+.rs-icon.time { color: var(--accent); }
+
+.results-subjects { margin-bottom: 22px; }
+.sub-result {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+.sub-result-name { font-weight: 700; }
+.sub-result-score.good { color: var(--green); }
+.sub-result-score.ok { color: var(--accent); }
+.sub-result-score.bad { color: var(--red); }
+
+.results-actions {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  margin-bottom: 18px;
+}
+
+/* ========================================================
+   REVIEW SCREEN
+   ======================================================== */
+.review-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.review-body {
+  max-width: 720px; margin: 0 auto; padding: 24px;
+}
+.review-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.review-meta {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-bottom: 12px;
+}
+.review-num,
+.review-subj,
+.review-status { font-weight: 700; }
+.review-status.correct { color: var(--green); }
+.review-status.wrong { color: var(--red); }
+.review-status.skipped { color: var(--text2); }
+.review-q { margin-bottom: 12px; line-height: 1.6; }
+.review-options { display: grid; gap: 8px; }
+.review-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg2);
+}
+.review-opt.correct-ans { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
+.review-opt.user-wrong { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
+.opt-lbl {
+  min-width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px; background: rgba(255,255,255,0.08);
+  font-weight: 700;
+}
+
+/* ========================================================
+   HISTORY SCREEN
+   ======================================================== */
+.history-header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.history-header-row h2.setup-title {
+  margin-bottom: 6px;
+  font-size: 28px;
+}
+.history-header-row .setup-sub {
+  margin: 0;
+  color: var(--text2);
+}
+.danger-btn {
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.3);
+  color: var(--red);
+}
+.danger-btn:hover {
+  background: rgba(244, 63, 94, 0.18);
+}
+.history-summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.history-card,
+.result-card {
+  background: linear-gradient(180deg, var(--card), var(--bg2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.history-card h4,
+.result-card h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--text);
+}
+.history-card p,
+.result-card p {
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.history-empty {
+  padding: 28px;
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text2);
+  text-align: center;
+}
+.hist-record {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+.hist-record-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 14px;
+}
+.hist-grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 54px; height: 54px; border-radius: 50%;
+  font-size: 18px; font-weight: 800;
+  color: #fff;
+}
+.hist-grade.A { background: #22c55e; }
+.hist-grade.B { background: #2563eb; }
+.hist-grade.C { background: #f59e0b; }
+.hist-grade.D { background: #f97316; }
+.hist-grade.F { background: #ef4444; }
+.hist-record-info {
+  flex: 1; min-width: 0;
+}
+.hist-record-title {
+  font-size: 15px; font-weight: 700; color: var(--text);
+  margin-bottom: 4px;
+}
+.hist-record-date {
+  font-size: 13px; color: var(--text2);
+}
+.hist-record-score {
+  text-align: right;
+  font-weight: 700;
+  min-width: 70px;
+}
+.hist-record-score.good { color: var(--green); }
+.hist-record-score.ok { color: var(--accent); }
+.hist-record-score.bad { color: var(--red); }
+.hist-record-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  color: var(--text2);
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+.hist-record-actions {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: flex-end;
+}
+.hist-view-btn,
+.hist-delete-btn {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card2);
+  color: var(--text);
+  font-weight: 700;
+  transition: all var(--transition);
+}
+.hist-view-btn:hover,
+.hist-delete-btn:hover {
+  border-color: var(--accent);
+  background: rgba(79, 142, 247, 0.08);
+}
+.history-list {
+  display: grid; gap: 14px;
+  padding: 0 24px 32px;
+}
+
+/* ========================================================
+   MODAL + OVERLAYS
+   ======================================================== */
+.modal-overlay,
+.loading-overlay {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(10,12,18,0.75);
+  z-index: 9999;
+}
+.modal-overlay.hidden,
+.loading-overlay.hidden { display: none; }
+.modal {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: min(100%, 420px);
+  box-shadow: var(--shadow-lg);
+}
+.modal-icon { font-size: 32px; margin-bottom: 16px; }
+.modal-title { font-size: 20px; margin-bottom: 10px; }
+.modal-msg { color: var(--text2); line-height: 1.7; margin-bottom: 20px; }
+.modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-modal-confirm,
+.btn-modal-cancel { flex: 1; padding: 12px 16px; border-radius: var(--radius-sm); font-weight: 700; }
+.btn-modal-confirm { background: var(--accent); color: #fff; }
+.btn-modal-cancel { background: var(--card2); border: 1px solid var(--border); color: var(--text); }
+
+.loading-spinner {
+  width: 52px; height: 52px;
+  border: 6px solid rgba(255,255,255,0.15);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+.loading-text { color: var(--text); font-size: 14px; }
+
+.hidden { display: none !important; }
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sidebar-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,12,18,0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.sidebar-overlay.show { opacity: 1; visibility: visible; }
+
+/* ========================================================
+   BOTTOM NAVIGATION BAR
+   ======================================================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 900;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: stretch;
+  height: 64px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.bottom-nav.hidden-nav { display: none; }
+.bnav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 8px 0 6px;
+  color: var(--text3);
+  transition: color var(--transition);
+  position: relative;
+  font-family: var(--font);
+}
+.bnav-item:active { transform: scale(0.93); }
+.bnav-item.active { color: var(--accent); }
+.bnav-item.active .bnav-icon { transform: translateY(-2px); }
+.bnav-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 0 0 4px 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.bnav-item.active::before { opacity: 1; }
+.bnav-icon { font-size: 22px; line-height: 1; transition: transform var(--transition); }
+.bnav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+
+/* Add bottom padding to scrollable screens so content isn't hidden */
+.screen.has-bottom-nav .setup-body,
+.screen.has-bottom-nav .results-wrap,
+.screen.has-bottom-nav .review-body,
+.screen.has-bottom-nav .history-list,
+.screen.has-bottom-nav .landing-wrap {
+  padding-bottom: 80px;
+}
+.screen.has-bottom-nav.active { padding-bottom: 0; }
+
+/* ========================================================
+   PROFILE SCREEN
+   ======================================================== */
+#screen-profile {
+  flex-direction: column;
+  padding-bottom: 80px;
+}
+.profile-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  position: sticky; top: 0; z-index: 50;
+}
+.profile-header h2 { font-size: 20px; font-weight: 800; }
+.profile-body {
+  max-width: 700px; width: 100%;
+  margin: 0 auto;
+  padding: 24px 24px 32px;
+}
+
+/* Hero card */
+.profile-hero {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 32px 24px;
+  background: linear-gradient(135deg, var(--card), var(--card2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.profile-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at top, var(--accent-glow), transparent 70%);
+  pointer-events: none;
+}
+.profile-avatar-lg {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #22c55e);
+  color: #fff;
+  font-size: 2rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 32px rgba(79,142,247,0.3);
+  position: relative; z-index: 1;
+}
+.profile-name-lg {
+  font-size: 22px; font-weight: 800; margin-bottom: 4px;
+  position: relative; z-index: 1;
+}
+.profile-school-lg {
+  font-size: 14px; color: var(--text2); margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+.profile-edit-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-weight: 700; font-size: 14px;
+  transition: all var(--transition);
+  position: relative; z-index: 1;
+}
+.profile-edit-btn:hover { background: #2563eb; transform: translateY(-1px); }
+
+/* No-profile state */
+.profile-no-data {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+.profile-no-data .big-icon { font-size: 56px; margin-bottom: 16px; }
+.profile-no-data h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.profile-no-data p { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
+
+/* Stats section */
+.profile-section-title {
+  font-size: 13px; font-weight: 700; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 14px; margin-top: 4px;
+}
+.profile-stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 24px;
+}
+.pstat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 4px;
+  transition: border-color var(--transition);
+}
+.pstat-card:hover { border-color: var(--accent); }
+.pstat-icon { font-size: 22px; margin-bottom: 6px; }
+.pstat-val {
+  font-size: 26px; font-weight: 800;
+  font-family: var(--mono);
+}
+.pstat-val.green { color: var(--green); }
+.pstat-val.blue { color: var(--accent); }
+.pstat-val.orange { color: var(--orange); }
+.pstat-val.yellow { color: var(--yellow); }
+.pstat-label { font-size: 12px; color: var(--text2); font-weight: 600; }
+
+/* Subject performance */
+.subject-perf-list { display: grid; gap: 10px; margin-bottom: 24px; }
+.subj-perf-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+.subj-perf-name { font-size: 13px; font-weight: 700; min-width: 120px; }
+.subj-perf-bar-wrap {
+  flex: 1; height: 8px; background: var(--bg3);
+  border-radius: 999px; overflow: hidden;
+}
+.subj-perf-bar {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #22c55e);
+  transition: width 0.5s ease;
+}
+.subj-perf-pct {
+  font-size: 13px; font-weight: 700; color: var(--accent2);
+  min-width: 40px; text-align: right;
+  font-family: var(--mono);
+}
+
+/* Grade distribution */
+.grade-dist-row {
+  display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.grade-dist-item {
+  flex: 1; min-width: 60px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+}
+.gd-grade { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+.gd-grade.A { color: #22c55e; }
+.gd-grade.B { color: #3b82f6; }
+.gd-grade.C { color: #f59e0b; }
+.gd-grade.D { color: #f97316; }
+.gd-grade.F { color: #ef4444; }
+.gd-count { font-size: 20px; font-weight: 800; }
+.gd-label { font-size: 11px; color: var(--text3); }
+
+/* Streak / activity */
+.activity-row {
+  display: flex; gap: 10px; margin-bottom: 24px;
+}
+.activity-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  text-align: center;
+}
+.activity-card .big-num {
+  font-size: 32px; font-weight: 800; color: var(--accent);
+  font-family: var(--mono);
+}
+.activity-card .act-label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+/* Quick action buttons */
+.profile-actions { display: grid; gap: 12px; margin-bottom: 12px; }
+.prof-action-btn {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%;
+  padding: 16px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 15px; font-weight: 600;
+  transition: all var(--transition);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font);
+}
+.prof-action-btn:hover { border-color: var(--accent); background: var(--card2); transform: translateY(-1px); }
+.prof-action-btn .pab-icon { font-size: 22px; }
+.prof-action-btn .pab-text strong { display: block; }
+.prof-action-btn .pab-text small { color: var(--text2); font-size: 12px; }
+.prof-action-btn .pab-arrow { margin-left: auto; color: var(--text3); }
+.prof-action-btn.danger { border-color: rgba(244,63,94,0.25); }
+.prof-action-btn.danger:hover { border-color: var(--red); background: var(--red-bg); }
+
+/* Hist stat cards (reused for profile summary) */
+.hist-stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+.hist-stat-num { display: block; font-size: 24px; font-weight: 800; color: var(--accent); font-family: var(--mono); }
+.hist-stat-lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 4px; display: block; }
+</style>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body data-theme="light">
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem('preplite-theme');
+        if (saved) document.body.setAttribute('data-theme', saved);
+      } catch (e) {
+        console.error('Theme load error:', e);
+      }
+    })();
+  </script>
+  <!-- Boot loader -->
+  <div id="bootOverlay" style="position:fixed;inset:0;z-index:99999;background:#f0f3fb;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+    <div style="font-family:sans-serif;color:#2563eb;font-size:1.5rem;font-weight:700;letter-spacing:2px;">PREP<span style="color:#06b6d4">LITE</span></div>
+    <div style="width:48px;height:48px;border:4px solid #dde3f2;border-top-color:#2563eb;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+    <div style="font-family:sans-serif;color:#4b5563;font-size:0.85rem;">Loading question banks...</div>
+  </div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+  <!-- ===================== LANDING PAGE ===================== -->
+  <div id="screen-landing" class="screen active has-bottom-nav">
+    <div class="landing-bg">
+      <div class="bg-grid"></div>
+      <div class="bg-glow glow-1"></div>
+      <div class="bg-glow glow-2"></div>
+    </div>
+    <div class="landing-wrap">
+      <header class="land-header">
+        <div class="logo-mark">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+        </div>
+      </header>
+
+      <main class="land-main">
+        <div class="land-badge">Nigerian Secondary School CBT Platform</div>
+        <h1 class="land-title">
+          Ace Your<br/>
+          <span class="title-highlight">WAEC &amp; JAMB</span><br/>
+          Exams
+        </h1>
+        <p class="land-sub">Smart practice with 18 subjects, timed sessions, and real exam simulation. Practice smarter, not harder.</p>
+
+        <div class="land-actions">
+          <button class="btn-primary" id="btnPractice" onclick="openPracticeSetup()">
+            <span class="btn-icon">📚</span>
+            <span>
+              <strong>Practice Mode</strong>
+              <small>Self-paced learning</small>
+            </span>
+          </button>
+          <button class="btn-secondary" id="btnExam" onclick="openExamSetup()">
+            <span class="btn-icon">🎯</span>
+            <span>
+              <strong>Exam Mode</strong>
+              <small>WAEC simulation</small>
+            </span>
+          </button>
+        </div>
+
+        <div class="land-stats">
+          <div class="stat"><span class="stat-num">18</span><span class="stat-label">Subjects</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-num">20K+</span><span class="stat-label">Questions</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-num">SS1–SS3</span><span class="stat-label">All Levels</span></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===================== BOTTOM NAVIGATION ===================== -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bnav-item active" id="bnav-home" onclick="navTo('home')">
+      <span class="bnav-icon">🏠</span>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-item" id="bnav-practice" onclick="navTo('practice')">
+      <span class="bnav-icon">📚</span>
+      <span class="bnav-label">Practice</span>
+    </button>
+    <button class="bnav-item" id="bnav-exam" onclick="navTo('exam')">
+      <span class="bnav-icon">🎯</span>
+      <span class="bnav-label">Exam</span>
+    </button>
+    <button class="bnav-item" id="bnav-history" onclick="navTo('history')">
+      <span class="bnav-icon">📊</span>
+      <span class="bnav-label">History</span>
+    </button>
+    <button class="bnav-item" id="bnav-profile" onclick="navTo('profile')">
+      <span class="bnav-icon">👤</span>
+      <span class="bnav-label">Profile</span>
+    </button>
+  </nav>
+
+  <!-- ===================== PROFILE SCREEN ===================== -->
+  <div id="screen-profile" class="screen has-bottom-nav">
+    <div class="profile-header">
+      <div class="logo-mark small">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+      </div>
+      <h2>My Profile</h2>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    </div>
+    <div class="profile-body" id="profileBody">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- ===================== STUDENT EDIT MODAL ===================== -->
+  <div id="studentEditOverlay" class="modal-overlay hidden" onclick="closeStudentEdit()">
+    <div class="modal student-edit-modal" onclick="event.stopPropagation()">
+      <div class="modal-icon">🎓</div>
+      <h3 class="modal-title" id="studentEditTitle">Student Profile</h3>
+      <div class="student-form">
+        <div class="form-field">
+          <label class="form-label">Full Name *</label>
+          <input type="text" id="sfName" class="field-input" placeholder="e.g. Amina Bello" maxlength="60" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">School Name</label>
+          <input type="text" id="sfSchool" class="field-input" placeholder="e.g. Queens School Ibadan" maxlength="80" />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal-confirm" onclick="saveStudentEditForm()">Save Profile</button>
+        <button class="btn-modal-cancel" onclick="closeStudentEdit()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== PRACTICE SETUP ===================== -->
+  <div id="screen-practice-setup" class="screen">
+    <div class="setup-header">
+      <div class="logo-mark small">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+      </div>
+    </div>
+
+    <div class="setup-body">
+      <h2 class="setup-title">Practice Mode</h2>
+      <p class="setup-sub">Choose how you want to practice</p>
+
+      <div class="mode-cards">
+        <button class="mode-card" id="cardSingle" onclick="selectPracticeType('single')" type="button">
+          <div class="mode-card-icon">📖</div>
+          <h3>Single Subject</h3>
+          <p>50 questions from one subject of your choice</p>
+          <div class="mode-card-check"></div>
+        </button>
+        <button class="mode-card" id="cardMultiple" onclick="selectPracticeType('multiple')" type="button">
+          <div class="mode-card-icon">📚</div>
+          <h3>Multiple Subjects</h3>
+          <p>100 questions across 4 subjects (25 each)</p>
+          <div class="mode-card-check"></div>
+        </button>
+      </div>
+
+      <!-- Single Subject Config -->
+      <div id="singleConfig" class="config-section hidden">
+        <label class="field-label">Select Subject</label>
+        <select id="singleSubject" class="field-select"></select>
+      </div>
+
+      <!-- Multiple Subject Config -->
+      <div id="multipleConfig" class="config-section hidden">
+        <label class="field-label">Select 4 Subjects</label>
+        <div id="multiSubjectGrid" class="subject-grid"></div>
+        <p class="field-hint"><span id="selectedCount">0</span>/4 subjects selected</p>
+      </div>
+
+      <!-- Timer Config -->
+      <div id="timerConfig" class="config-section hidden">
+        <label class="field-label">Choose Timer</label>
+        <div class="timer-options">
+          <button class="timer-btn" onclick="setTimer(15)">15 min</button>
+          <button class="timer-btn" onclick="setTimer(30)">30 min</button>
+          <button class="timer-btn" onclick="setTimer(40)">40 min</button>
+          <button class="timer-btn" onclick="setTimer(50)">50 min</button>
+          <button class="timer-btn custom-timer-btn" onclick="showCustomTimer()">Custom</button>
+        </div>
+        <div id="customTimerInput" class="custom-timer hidden">
+          <input type="number" id="customMinutes" min="1" max="180" placeholder="Enter minutes (1–180)" class="field-input" />
+          <button class="btn-small" onclick="applyCustomTimer()">Set</button>
+        </div>
+        <p class="field-hint" id="timerDisplay"></p>
+      </div>
+
+      <button class="btn-start" id="btnStartPractice" type="button" onclick="promptQuizConsent('practice')" disabled>Start Practice →</button>
+    </div>
+  </div>
+
+  <!-- ===================== EXAM SETUP ===================== -->
+  <div id="screen-exam-setup" class="screen">
+    <div class="setup-header">
+      <div class="logo-mark small">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+      </div>
+    </div>
+
+    <div class="setup-body">
+      <h2 class="setup-title">Exam Mode</h2>
+      <p class="setup-sub">WAEC-style simulation — 120 minutes</p>
+
+      <div class="exam-info-card">
+        <div class="exam-subject-fixed">
+          <span class="subject-badge compulsory">Compulsory</span>
+          <span class="subject-name">English Language</span>
+          <span class="subject-qs">60 questions</span>
+        </div>
+      </div>
+
+      <label class="field-label">Select 3 More Subjects (40 questions each)</label>
+      <div id="examSubjectGrid" class="subject-grid"></div>
+      <p class="field-hint exam-hint"><span id="examSelectedCount">0</span>/3 additional subjects selected</p>
+
+      <button class="btn-start" id="btnStartExam" type="button" onclick="promptQuizConsent('exam')" disabled>Begin Exam →</button>
+    </div>
+  </div>
+
+  <!-- ===================== QUIZ SCREEN ===================== -->
+  <div id="screen-quiz" class="screen">
+    <div class="quiz-layout">
+      <main class="quiz-main">
+        <div class="quiz-header">
+          <div class="header-logo">
+            <span class="logo-icon">⬡</span>
+            <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+          </div>
+          <div class="header-timer">
+            <div class="timer-display" id="timerCountdown">00:00</div>
+          </div>
+        </div>
+
+        <div class="quiz-subject-bar">
+          <span class="quiz-subject-tag" id="quizSubjectTag">Subject</span>
+        </div>
+
+        <div class="question-wrap">
+          <div class="q-meta">
+            <span class="q-number" id="qNumber">Q 1</span>
+            <span class="q-subject" id="qSubject">Subject</span>
+          </div>
+          <div class="q-text" id="qText">Loading question...</div>
+          <div class="options-list" id="optionsList"></div>
+        </div>
+
+        <div class="progress-block mobile">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">0 / 0 answered</div>
+        </div>
+
+        <div class="quiz-nav-mobile">
+          <button class="nav-btn" onclick="prevQuestion()">← Prev</button>
+          <button class="nav-btn flag-btn" onclick="flagQuestion()" id="flagBtn">⚑ Flag</button>
+          <button class="nav-btn skip-btn" onclick="skipQuestion()">Skip →</button>
+          <button class="nav-btn next-btn" onclick="nextQuestion()">Next →</button>
+        </div>
+
+        <button class="btn-submit-mobile" onclick="confirmSubmit()">Submit Exam</button>
+
+        <div class="palette-section mobile" id="questionPaletteSection">
+          <div class="palette-header">
+            <div class="palette-title">Question Palette</div>
+            <button class="palette-toggle-btn" type="button" id="paletteToggleBtn" onclick="togglePalette()">Hide</button>
+          </div>
+          <div class="palette-legend">
+            <span class="pal-dot unanswered"></span>Unanswered
+            <span class="pal-dot answered"></span>Answered
+            <span class="pal-dot current"></span>Current
+            <span class="pal-dot flagged"></span>Flagged
+          </div>
+          <div class="palette-grid" id="paletteGrid"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===================== RESULTS SCREEN ===================== -->
+  <div id="screen-results" class="screen">
+    <div class="results-wrap">
+      <div class="results-header">
+        <div class="logo-mark small">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+        </div>
+      </div>
+
+      <div class="grade-card" id="gradeCard">
+        <div class="grade-ring" id="gradeRing">
+          <div class="grade-letter" id="gradeLetter">A</div>
+        </div>
+        <div class="grade-score" id="gradeScore">85%</div>
+        <div class="grade-label" id="gradeLabel">Excellent!</div>
+      </div>
+
+      <!-- Saved to DB banner -->
+      <div class="db-saved-banner" id="dbSavedBanner" style="display:none;">
+        ✅ Result saved to your history
+      </div>
+
+      <div class="results-stats">
+        <div class="result-stat">
+          <span class="rs-icon correct">✓</span>
+          <span class="rs-val" id="rsCorrect">0</span>
+          <span class="rs-lbl">Correct</span>
+        </div>
+        <div class="result-stat">
+          <span class="rs-icon wrong">✗</span>
+          <span class="rs-val" id="rsWrong">0</span>
+          <span class="rs-lbl">Wrong</span>
+        </div>
+        <div class="result-stat">
+          <span class="rs-icon skipped">–</span>
+          <span class="rs-val" id="rsSkipped">0</span>
+          <span class="rs-lbl">Skipped</span>
+        </div>
+        <div class="result-stat">
+          <span class="rs-icon time">⏱</span>
+          <span class="rs-val" id="rsTime">0:00</span>
+          <span class="rs-lbl">Time Used</span>
+        </div>
+      </div>
+
+      <div class="results-subjects" id="resultsSubjects"></div>
+
+      <div class="results-actions">
+        <button class="btn-primary" type="button" onclick="reviewAnswers()">
+          <span class="btn-icon">🔍</span><span><strong>Review Answers</strong><small>See all questions</small></span>
+        </button>
+        <button class="btn-secondary" type="button" onclick="retryQuiz()">
+          <span class="btn-icon">🔄</span><span><strong>Retry</strong><small>Fresh attempt</small></span>
+        </button>
+        <button class="btn-secondary" type="button" onclick="openHistory()">
+          <span class="btn-icon">📚</span><span><strong>View Record</strong><small>Past attempts</small></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== REVIEW SCREEN ===================== -->
+  <div id="screen-review" class="screen">
+    <div class="review-header">
+      <button class="back-btn" id="backBtnReview" type="button" onclick="closeReview()">← Back</button>
+      <div class="logo-mark small">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+      </div>
+    </div>
+    <div class="review-body">
+      <h2 class="setup-title">Answer Review</h2>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+
+  <!-- ===================== HISTORY SCREEN ===================== -->
+  <div id="screen-history" class="screen has-bottom-nav">
+    <div class="setup-header">
+      <div class="logo-mark small">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">PREP<span class="logo-accent">LITE</span></span>
+      </div>
+    </div>
+
+    <div class="setup-body">
+      <div class="history-header-row">
+        <div>
+          <h2 class="setup-title">My History</h2>
+          <p class="setup-sub" id="historyStudentName">All past quiz results</p>
+        </div>
+        <button class="sc-btn danger-btn" type="button" onclick="confirmClearHistory()">🗑 Clear All</button>
+      </div>
+
+      <!-- Summary cards -->
+      <div class="history-summary" id="historySummary"></div>
+
+      <!-- Record list -->
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </div>
+
+  <!-- ===================== MODALS ===================== -->
+  <div id="modalOverlay" class="modal-overlay hidden" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-icon" id="modalIcon">⚠️</div>
+      <h3 class="modal-title" id="modalTitle">Confirm</h3>
+      <p class="modal-msg" id="modalMsg">Are you sure?</p>
+      <div class="modal-actions">
+        <button class="btn-modal-confirm" id="modalConfirm">Confirm</button>
+        <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading questions...</div>
+  </div>
+
+  <!-- Scripts at bottom: question banks first, then DB, then app -->
+  <script src="question_bank_1.js"></script>
+  <script src="question_bank_2.js"></script>
+  <script>
+  /* ═══════════════════════════════════════════════════════════════
+     PREP-LITE — Triple-Layer Persistence (MIT App Inventor Ready)
+     ─────────────────────────────────────────────────────────────
+     Layer 1 : IndexedDB   — best performance (preplite style)
+     Layer 2 : localStorage  — fast in-session cache (fallback)
+     Layer 3 : TinyDB bridge — MIT App Inventor integration
+               the HTML calls window.AppInventor.setWebViewString()
+               and reads via AppInventor.getWebViewString().
+     ─────────────────────────────────────────────────────────────
+     Keys used in localStorage AND TinyDB:
+       pl_results    → JSON array of all quiz results
+       pl_settings   → JSON object  { studentProfile, theme, ... }
+       pl_activity   → JSON array of activity log entries
+     ═══════════════════════════════════════════════════════════════ */
+
+  // ── Storage key constants ─────────────────────────────────────
+  const LS_RESULTS_KEY  = 'pl_results';
+  const LS_SETTINGS_KEY = 'pl_settings';
+  const LS_ACTIVITY_KEY = 'pl_activity';
+  const MAX_ACTIVITY    = 200;
+
+  // ── IndexedDB constants (preplite style) ──────────────────────
+  const DB_NAME = 'PrepLiteDB';
+  const DB_VERSION = 1;
+  const STORE_RESULTS = 'student_results';
+  const STORE_SETTINGS = 'settings';
+  let dbInstance = null;
+
+  // ── In-memory store (always works, survives localStorage blocks) ─
+  var _memCache = {};
+
+  // ── Detect MIT App Inventor WebView ───────────────────────────
+  function _isAppInventor() {
+    return !!(window.AppInventor && typeof window.AppInventor.setWebViewString === 'function');
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // INDEXEDDB LAYER (Preplite-style for better persistence)
+  // ═══════════════════════════════════════════════════════════════
+
+  function openDatabase() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains(STORE_RESULTS)) {
+          db.createObjectStore(STORE_RESULTS, { keyPath: 'id', autoIncrement: true });
+        }
+        if (!db.objectStoreNames.contains(STORE_SETTINGS)) {
+          db.createObjectStore(STORE_SETTINGS, { keyPath: 'key' });
+        }
+      };
+      request.onsuccess = () => {
+        dbInstance = request.result;
+        resolve(dbInstance);
+      };
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function idbTransaction(storeName, mode = 'readonly') {
+    if (!dbInstance) return null;
+    try {
+      return dbInstance.transaction([storeName], mode).objectStore(storeName);
+    } catch(e) {
+      return null;
+    }
+  }
+
+  function idbSaveResult(resultData) {
+    return new Promise((resolve, reject) => {
+      const store = idbTransaction(STORE_RESULTS, 'readwrite');
+      if (!store) { reject('IndexedDB unavailable'); return; }
+      const request = store.add(resultData);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function idbGetAllResults() {
+    return new Promise((resolve, reject) => {
+      const store = idbTransaction(STORE_RESULTS, 'readonly');
+      if (!store) { reject('IndexedDB unavailable'); return; }
+      const request = store.getAll();
+      request.onsuccess = () => {
+        const records = request.result || [];
+        records.sort((a, b) => new Date(b.dateTaken) - new Date(a.dateTaken));
+        resolve(records);
+      };
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function idbDeleteResult(id) {
+    return new Promise((resolve, reject) => {
+      const store = idbTransaction(STORE_RESULTS, 'readwrite');
+      if (!store) { reject('IndexedDB unavailable'); return; }
+      const request = store.delete(id);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function idbClearAllResults() {
+    return new Promise((resolve, reject) => {
+      const store = idbTransaction(STORE_RESULTS, 'readwrite');
+      if (!store) { reject('IndexedDB unavailable'); return; }
+      const request = store.clear();
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function idbSaveSetting(key, value) {
+    return new Promise((resolve, reject) => {
+      const store = idbTransaction(STORE_SETTINGS, 'readwrite');
+      if (!store) { reject('IndexedDB unavailable'); return; }
+      const request = store.put({ key, value });
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function idbGetSetting(key) {
+    return new Promise((resolve, reject) => {
+      const store = idbTransaction(STORE_SETTINGS, 'readonly');
+      if (!store) { reject('IndexedDB unavailable'); return; }
+      const request = store.get(key);
+      request.onsuccess = () => resolve(request.result ? request.result.value : null);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // STORAGE STRATEGY — TinyDB via WebViewString (MIT App Inventor)
+  //
+  // HOW IT WORKS:
+  //   SAVE:  HTML calls setWebViewString(jsonPayload)
+  //          → your WebViewStringChange block fires
+  //          → TinyDB1.StoreValue("DE_DB", WebViewer1.WebViewString)
+  //
+  //   LOAD:  On startup, HTML reads getWebViewString()
+  //          which your Screen6.Initialize already set to
+  //          TinyDB1.GetValue("DE_DB", "")
+  //
+  // CRASH FIX (boolean false on first run):
+  //   MIT App Inventor TinyDB returns boolean false (not "") for
+  //   missing tags. The HTML now detects this and immediately calls
+  //   setWebViewString("{}") — an empty but valid JSON string —
+  //   so your WebViewStringChange block always receives a safe string.
+  //   localStorage is used as a fast in-session cache only.
+  // ═══════════════════════════════════════════════════════════════
+
+  // ── localStorage helpers (in-session cache only) ──────────────
+  function _lsGet(key) {
+    if (_memCache[key] !== undefined) return _memCache[key];
+    try {
+      var val = localStorage.getItem(key);
+      if (val !== null) { _memCache[key] = val; return val; }
+    } catch(e) {}
+    return null;
+  }
+  function _lsSet(key, val) {
+    _memCache[key] = val;
+    try { localStorage.setItem(key, val); } catch(e) {}
+  }
+  function _lsRemove(key) {
+    delete _memCache[key];
+    try { localStorage.removeItem(key); } catch(e) {}
+  }
+
+  // ── Read full store from WebViewString (set by Screen6.Initialize) ──
+  function _loadFromTinyDB() {
+    try {
+      if (!_isAppInventor()) return;
+      var raw = window.AppInventor.getWebViewString();
+
+      // MIT App Inventor TinyDB returns boolean false for missing tags.
+      // Immediately overwrite with safe empty JSON so WebViewStringChange
+      // never receives a boolean again.
+      if (!raw || typeof raw !== 'string' || raw.trim() === '' ||
+          raw === 'false' || raw === 'null') {
+        console.log('PREP-LITE: first run — initialising TinyDB with empty store');
+        window.AppInventor.setWebViewString('{}');
+        return; // nothing to restore yet
+      }
+
+      var trimmed = raw.trim();
+      if (trimmed.charAt(0) !== '{') {
+        // Not our data — reset to safe value
+        window.AppInventor.setWebViewString('{}');
+        return;
+      }
+
+      var store = JSON.parse(trimmed);
+      [LS_RESULTS_KEY, LS_SETTINGS_KEY, LS_ACTIVITY_KEY].forEach(function(k) {
+        if (store[k]) {
+          _memCache[k] = store[k];
+          try { localStorage.setItem(k, store[k]); } catch(e) {}
+        }
+      });
+      console.log('PREP-LITE: data restored from TinyDB');
+    } catch(e) {
+      console.warn('_loadFromTinyDB error:', e);
+      try { window.AppInventor.setWebViewString('{}'); } catch(e2) {}
+    }
+  }
+
+  // ── Write key → update store → push to TinyDB via WebViewString ──
+  function _saveToDB(key, jsonString) {
+    // Build the full store from cache
+    var store = {};
+    [LS_RESULTS_KEY, LS_SETTINGS_KEY, LS_ACTIVITY_KEY].forEach(function(k) {
+      var val = _memCache[k];
+      if (!val) { try { val = localStorage.getItem(k); } catch(e) { val = null; } }
+      if (val) store[k] = val;
+    });
+    store[key] = jsonString; // include latest write
+
+    try {
+      if (_isAppInventor()) {
+        window.AppInventor.setWebViewString(JSON.stringify(store));
+      }
+    } catch(e) { /* not in App Inventor */ }
+  }
+
+  // ── Unified write ─────────────────────────────────────────────
+  function _write(key, jsonString) {
+    _lsSet(key, jsonString);   // fast in-session cache
+    _saveToDB(key, jsonString); // persist to TinyDB via WebViewString
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // RESULTS API (IndexedDB-first with localStorage fallback)
+  // ─────────────────────────────────────────────────────────────
+
+  function _readResults() {
+    try {
+      const raw = _lsGet(LS_RESULTS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch(e) { return []; }
+  }
+
+  function _writeResults(arr) {
+    _write(LS_RESULTS_KEY, JSON.stringify(arr));
+  }
+
+  function initializeDatabase() {
+    // Try IndexedDB first, fallback to TinyDB/localStorage
+    return openDatabase().then(() => {
+      console.log('PREP-LITE: IndexedDB initialized successfully');
+      // Also restore from TinyDB for compatibility with MIT App Inventor
+      _loadFromTinyDB();
+      return Promise.resolve();
+    }).catch((err) => {
+      console.warn('PREP-LITE: IndexedDB failed, using localStorage fallback:', err);
+      _loadFromTinyDB(); // fallback to TinyDB/localStorage
+      return Promise.resolve();
+    });
+  }
+
+  function saveResult(resultData) {
+    // Try IndexedDB first
+    if (dbInstance) {
+      return idbSaveResult(resultData).catch((err) => {
+        console.warn('PREP-LITE: IndexedDB save failed, using localStorage fallback:', err);
+        // Fallback: save to localStorage
+        const records = _readResults();
+        const newId = Date.now();
+        const record = { ...resultData, id: newId };
+        records.unshift(record);
+        _writeResults(records);
+        return Promise.resolve(newId);
+      });
+    } else {
+      // IndexedDB not available, use localStorage
+      const records = _readResults();
+      const newId = Date.now();
+      const record = { ...resultData, id: newId };
+      records.unshift(record);
+      _writeResults(records);
+      return Promise.resolve(newId);
+    }
+  }
+
+  function getAllResults() {
+    // Try IndexedDB first
+    if (dbInstance) {
+      return idbGetAllResults().catch((err) => {
+        console.warn('PREP-LITE: IndexedDB read failed, using localStorage fallback:', err);
+        const records = _readResults();
+        records.sort((a, b) => new Date(b.dateTaken) - new Date(a.dateTaken));
+        return Promise.resolve(records);
+      });
+    } else {
+      // Fallback to localStorage
+      const records = _readResults();
+      records.sort((a, b) => new Date(b.dateTaken) - new Date(a.dateTaken));
+      return Promise.resolve(records);
+    }
+  }
+
+  function getSingleResult(id) {
+    // Try IndexedDB first
+    if (dbInstance) {
+      return idbGetAllResults().then((records) => {
+        return records.find(r => r.id === id) || null;
+      }).catch((err) => {
+        console.warn('PREP-LITE: IndexedDB read failed, using localStorage fallback:', err);
+        const records = _readResults();
+        return records.find(r => r.id === id) || null;
+      });
+    } else {
+      // Fallback to localStorage
+      const records = _readResults();
+      return Promise.resolve(records.find(r => r.id === id) || null);
+    }
+  }
+
+  function deleteResult(id) {
+    // Try IndexedDB first
+    if (dbInstance) {
+      return idbDeleteResult(id).catch((err) => {
+        console.warn('PREP-LITE: IndexedDB delete failed, using localStorage fallback:', err);
+        const records = _readResults().filter(r => r.id !== id);
+        _writeResults(records);
+        return Promise.resolve();
+      });
+    } else {
+      // Fallback to localStorage
+      const records = _readResults().filter(r => r.id !== id);
+      _writeResults(records);
+      return Promise.resolve();
+    }
+  }
+
+  function clearAllResults() {
+    // Try IndexedDB first
+    if (dbInstance) {
+      return idbClearAllResults().catch((err) => {
+        console.warn('PREP-LITE: IndexedDB clear failed, using localStorage fallback:', err);
+        _writeResults([]);
+        return Promise.resolve();
+      });
+    } else {
+      // Fallback to localStorage
+      _writeResults([]);
+      return Promise.resolve();
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // SETTINGS API
+  // ─────────────────────────────────────────────────────────────
+
+  function _readSettings() {
+    try {
+      const raw = _lsGet(LS_SETTINGS_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  }
+
+  function _writeSettings(map) {
+    _write(LS_SETTINGS_KEY, JSON.stringify(map));
+  }
+
+  function saveSetting(key, value) {
+    // Try IndexedDB first
+    if (dbInstance) {
+      return idbSaveSetting(key, value).catch((err) => {
+        console.warn('PREP-LITE: IndexedDB settings save failed, using localStorage fallback:', err);
+        const map = _readSettings();
+        map[key] = value;
+        _writeSettings(map);
+        return Promise.resolve();
+      });
+    } else {
+      // Fallback to localStorage
+      const map = _readSettings();
+      map[key] = value;
+      _writeSettings(map);
+      return Promise.resolve();
+    }
+  }
+
+  function getSetting(key) {
+    // Try IndexedDB first
+    if (dbInstance) {
+      return idbGetSetting(key).catch((err) => {
+        console.warn('PREP-LITE: IndexedDB settings read failed, using localStorage fallback:', err);
+        const map = _readSettings();
+        return Promise.resolve(map[key] !== undefined ? map[key] : null);
+      });
+    } else {
+      // Fallback to localStorage
+      const map = _readSettings();
+      return Promise.resolve(map[key] !== undefined ? map[key] : null);
+    }
+  }
+
+  function getAllSettings() {
+    const map = _readSettings();
+    return Promise.resolve(Object.entries(map).map(([key, value]) => ({ key, value })));
+  }
+
+  // ── Student profile ───────────────────────────────────────────
+  function saveStudentProfile(profile) { return saveSetting('studentProfile', profile); }
+  function getStudentProfile()         { return getSetting('studentProfile'); }
+
+  // ─────────────────────────────────────────────────────────────
+  // ACTIVITY LOG
+  // ─────────────────────────────────────────────────────────────
+
+  function _readActivity() {
+    try {
+      const raw = _lsGet(LS_ACTIVITY_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch(e) { return []; }
+  }
+
+  function logActivity(type, detail = {}) {
+    try {
+      const log = _readActivity();
+      log.unshift({ type, detail, ts: new Date().toISOString() });
+      if (log.length > MAX_ACTIVITY) log.length = MAX_ACTIVITY;
+      _write(LS_ACTIVITY_KEY, JSON.stringify(log));
+    } catch(e) { /* never crash app for logging */ }
+  }
+
+  function getActivityLog() {
+    return _readActivity();
+  }
+  </script>
+  <script>
+// Merge both question bank parts into one
+// Guard: warn clearly if either bank failed to load (e.g. wrong filename in MIT App Inventor assets)
+if (typeof QUESTION_BANK_1 === 'undefined') console.error('PREP-LITE: question_bank_1.js did not load — check the filename in your MIT App Inventor assets.');
+if (typeof QUESTION_BANK_2 === 'undefined') console.error('PREP-LITE: question_bank_2.js did not load — check the filename in your MIT App Inventor assets.');
+const QUESTION_BANK = {
+  ...(typeof QUESTION_BANK_1 !== 'undefined' ? QUESTION_BANK_1 : {}),
+  ...(typeof QUESTION_BANK_2 !== 'undefined' ? QUESTION_BANK_2 : {}),
+};
+
+/**
+ * PREP-LITE — CBT Platform JavaScript
+ * Nigerian Secondary School Students
+ * Features: Practice Mode, Exam Mode, Timer, Review, Results
+ */
+
+// ═══════════════════════════════════════════════════════
+// CONFIGURATION
+// ═══════════════════════════════════════════════════════
+
+const SUBJECTS = [
+  { key: 'english',              label: 'English Language' },
+  { key: 'mathematics',         label: 'Mathematics' },
+  { key: 'biology',             label: 'Biology' },
+  { key: 'chemistry',           label: 'Chemistry' },
+  { key: 'physics',             label: 'Physics' },
+  { key: 'economics',           label: 'Economics' },
+  { key: 'government',          label: 'Government' },
+  { key: 'commerce',            label: 'Commerce' },
+  { key: 'literature',          label: 'Literature' },
+  { key: 'geography',           label: 'Geography' },
+  { key: 'further-mathematics', label: 'Further Mathematics' },
+  { key: 'food-nutrition',      label: 'Food & Nutrition' },
+  { key: 'financial-accounting',label: 'Financial Accounting' },
+  { key: 'civic-education',     label: 'Civic Education' },
+  { key: 'christian-studies',   label: 'Christian Studies' },
+  { key: 'agricultural-science',label: 'Agricultural Science' },
+  { key: 'computer-hardware',   label: 'Computer Hardware' },
+  { key: 'digital-technology',  label: 'Digital Technology' },
+];
+
+const LETTERS = ['A', 'B', 'C', 'D'];
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+
+let state = {
+  mode: null,           // 'practice' | 'exam'
+  practiceType: null,   // 'single' | 'multiple'
+  timerMinutes: 0,
+  questions: [],        // [{text, options:[...], correctIndex, subject}]
+  answers: {},          // {questionIndex: selectedOptionIndex}
+  flagged: new Set(),
+  currentIndex: 0,
+  timerInterval: null,
+  secondsLeft: 0,
+  startTime: null,
+  endTime: null,
+  examSubjects: [],     // subjects chosen (incl english)
+  warned10: false, warned5: false, warned1: false,
+};
+
+let reviewReturnScreen = 'screen-results';
+
+// Practice setup temp state
+let practiceConfig = {
+  type: null,
+  singleSubject: null,
+  multipleSubjects: [],
+  timerMins: null,
+};
+
+// Exam setup temp state
+let examConfig = {
+  subjects: [],  // 3 chosen (english is auto)
+};
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+
+window.onload = async function() {
+  try {
+    // Remove boot loader - all JS is now parsed and ready
+    var boot = document.getElementById('bootOverlay');
+    if (boot) boot.style.display = 'none';
+
+    // Initialize IndexedDB
+    await initializeDatabase();
+
+    // Initialize theme
+    loadTheme();
+
+    // Load student profile into landing card
+    await refreshStudentCard();
+
+    // Setup before unload listener
+    setupBeforeUnload();
+
+    // Restore session if available
+    tryRestoreSession();
+
+    // Bind all onclick handlers for WebViewer robustness
+    bindEventHandlers();
+
+    // Setup device back button handler
+    setupBackButtonHandler();
+
+    console.log('PREP-LITE initialized successfully');
+  } catch (e) {
+    console.error('Error during initialization:', e);
+  }
+};
+
+// Handle device back button (for Android/MIT App Inventor)
+function setupBackButtonHandler() {
+  try {
+    // For MIT App Inventor WebViewer - detect back button presses
+    document.addEventListener('backbutton', handleBackButton, false);
+    
+    // Also listen for keydown event (some WebViewers use this)
+    document.addEventListener('keydown', function(e) {
+      // Android back button sometimes triggers Escape key
+      if (e.keyCode === 27 || e.key === 'Escape') {
+        handleBackButton();
+        e.preventDefault();
+      }
+    }, false);
+    
+    console.log('Back button handler initialized');
+  } catch (e) {
+    console.error('Error setting up back button handler:', e);
+  }
+}
+
+// Handle back button navigation logic
+function handleBackButton() {
+  try {
+    const activeScreen = document.querySelector('.screen.active');
+    
+    if (!activeScreen) {
+      goHome();
+      return;
+    }
+    
+    const screenId = activeScreen.id;
+    
+    // Navigation logic based on current screen
+    switch(screenId) {
+      case 'screen-landing':
+        // Ask to confirm exit
+        if (state.timerInterval) {
+          showModal('⚠️', 'Confirm Exit', 'You have an exam in progress. Exit anyway?', () => {
+            closeModal();
+            goHome();
+            // For MIT App Inventor, signal to close the app
+            if (window.AppInventor) {
+              window.AppInventor.closeApplication();
+            }
+          });
+        } else {
+          // Exit app
+          if (window.AppInventor) {
+            window.AppInventor.closeApplication();
+          }
+        }
+        break;
+        
+      case 'screen-practice-setup':
+      case 'screen-exam-setup':
+        goHome();
+        break;
+        
+      case 'screen-quiz':
+        // Ask for confirmation when exam is active
+        if (state.timerInterval) {
+          showModal('⚠️', 'Abandon Exam?', 'You will lose your progress. Continue?', () => {
+            closeModal();
+            goHome();
+          });
+        } else {
+          goHome();
+        }
+        break;
+        
+      case 'screen-results':
+        goHome();
+        break;
+        
+      case 'screen-review':
+        showScreen('screen-results');
+        break;
+        
+      default:
+        goHome();
+    }
+  } catch (e) {
+    console.error('Error handling back button:', e);
+    goHome();
+  }
+}
+
+// Bind event handlers for better WebViewer compatibility
+function bindEventHandlers() {
+  try {
+    // Back buttons
+    document.querySelectorAll('.back-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goHome();
+      }, false);
+    });
+    
+    // Home buttons
+    document.querySelectorAll('[onclick*="goHome"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goHome();
+      }, false);
+    });
+    
+    console.log('Event handlers bound successfully');
+  } catch (e) {
+    console.error('Error binding event handlers:', e);
+  }
+}
+
+function setupBeforeUnload() {
+  window.addEventListener('beforeunload', (e) => {
+    if (state.mode && state.timerInterval) {
+      e.preventDefault();
+      e.returnValue = 'Exam in progress. Are you sure you want to leave?';
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════════════════
+
+function setTheme(theme) {
+  document.body.setAttribute('data-theme', theme);
+  localStorage.setItem('preplite-theme', theme);
+  updateThemeIcons(theme);
+}
+
+function loadTheme() {
+  const saved = localStorage.getItem('preplite-theme') || 'light';
+  setTheme(saved);
+}
+
+function toggleTheme() {
+  const current = document.body.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  setTheme(next);
+}
+
+function updateThemeIcons(theme) {
+  document.querySelectorAll('.theme-icon').forEach(el => {
+    el.textContent = theme === 'dark' ? '☀' : '☽';
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// SCREEN NAVIGATION
+// ═══════════════════════════════════════════════════════
+
+function showScreen(id) {
+  try {
+    // Hide all screens
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(s => {
+      s.classList.remove('active');
+      s.style.display = 'none';
+    });
+    
+    // Show target screen
+    const target = document.getElementById(id);
+    if (target) {
+      target.style.display = 'block';
+      target.classList.add('active');
+      // Delay scroll for WebViewer
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 50);
+    } else {
+      console.warn('Screen not found:', id);
+    }
+  } catch (e) {
+    console.error('Error in showScreen:', e);
+  }
+}
+
+function goHome() {
+  try {
+    if (state.timerInterval) {
+      clearInterval(state.timerInterval);
+      state.timerInterval = null;
+    }
+    clearSession();
+    resetState();
+    showScreen('screen-landing');
+    // Ensure scroll to top for WebViewer
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
+  } catch (e) {
+    console.error('Error in goHome:', e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// PRACTICE SETUP
+// ═══════════════════════════════════════════════
+
+function openPracticeSetup() {
+  practiceConfig = { type: null, singleSubject: null, multipleSubjects: [], timerMins: null };
+  showScreen('screen-practice-setup');
+  buildSingleSubjectDropdown();
+  buildMultiSubjectGrid();
+  document.getElementById('singleConfig').classList.add('hidden');
+  document.getElementById('multipleConfig').classList.add('hidden');
+  document.getElementById('timerConfig').classList.add('hidden');
+  document.getElementById('btnStartPractice').disabled = true;
+  // Clear selections
+  document.querySelectorAll('#screen-practice-setup .mode-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+}
+
+function buildSingleSubjectDropdown() {
+  const sel = document.getElementById('singleSubject');
+  sel.innerHTML = '<option value="">— Select Subject —</option>' +
+    SUBJECTS.map(s => `<option value="${s.key}">${s.label}</option>`).join('');
+  sel.onchange = function() {
+    practiceConfig.singleSubject = sel.value || null;
+    checkPracticeReady();
+  };
+}
+
+function buildMultiSubjectGrid() {
+  const grid = document.getElementById('multiSubjectGrid');
+  grid.innerHTML = SUBJECTS.map(s =>
+    `<div class="subject-chip" data-key="${s.key}" onclick="toggleMultiSubject('${s.key}', this)">${s.label}</div>`
+  ).join('');
+}
+
+function toggleMultiSubject(key, el) {
+  const idx = practiceConfig.multipleSubjects.indexOf(key);
+  if (idx > -1) {
+    practiceConfig.multipleSubjects.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    if (practiceConfig.multipleSubjects.length >= 4) return; // max 4
+    practiceConfig.multipleSubjects.push(key);
+    el.classList.add('selected');
+  }
+  // Disable non-selected when 4 selected
+  document.querySelectorAll('#multiSubjectGrid .subject-chip').forEach(chip => {
+    if (!chip.classList.contains('selected')) {
+      chip.classList.toggle('disabled', practiceConfig.multipleSubjects.length >= 4);
+    }
+  });
+  document.getElementById('selectedCount').textContent = practiceConfig.multipleSubjects.length;
+  checkPracticeReady();
+}
+
+function selectPracticeType(type) {
+  practiceConfig.type = type;
+  document.getElementById('cardSingle').classList.toggle('selected', type === 'single');
+  document.getElementById('cardMultiple').classList.toggle('selected', type === 'multiple');
+  document.getElementById('singleConfig').classList.toggle('hidden', type !== 'single');
+  document.getElementById('multipleConfig').classList.toggle('hidden', type !== 'multiple');
+  document.getElementById('timerConfig').classList.remove('hidden');
+  checkPracticeReady();
+}
+
+function setTimer(mins) {
+  practiceConfig.timerMins = mins;
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.timer-btn').forEach(b => {
+    if (b.textContent === mins + ' min') b.classList.add('active');
+  });
+  document.getElementById('customTimerInput').classList.add('hidden');
+  document.getElementById('timerDisplay').textContent = `⏱ ${mins} minute${mins !== 1 ? 's' : ''} selected`;
+  checkPracticeReady();
+}
+
+function showCustomTimer() {
+  document.getElementById('customTimerInput').classList.remove('hidden');
+  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.custom-timer-btn').classList.add('active');
+  practiceConfig.timerMins = null;
+  checkPracticeReady();
+}
+
+function applyCustomTimer() {
+  const v = parseInt(document.getElementById('customMinutes').value);
+  if (!v || v < 1 || v > 180) {
+    alert('Please enter a valid number between 1 and 180.');
+    return;
+  }
+  practiceConfig.timerMins = v;
+  document.getElementById('timerDisplay').textContent = `⏱ ${v} minute${v !== 1 ? 's' : ''} selected`;
+  checkPracticeReady();
+}
+
+function checkPracticeReady() {
+  const { type, singleSubject, multipleSubjects, timerMins } = practiceConfig;
+  let ready = false;
+  if (type === 'single' && singleSubject && timerMins) ready = true;
+  if (type === 'multiple' && multipleSubjects.length === 4 && timerMins) ready = true;
+  document.getElementById('btnStartPractice').disabled = !ready;
+}
+
+// ═══════════════════════════════════════════════════════
+// EXAM SETUP
+// ═══════════════════════════════════════════════════════
+
+function openExamSetup() {
+  examConfig = { subjects: [] };
+  showScreen('screen-exam-setup');
+  buildExamSubjectGrid();
+  document.getElementById('examSelectedCount').textContent = '0';
+  document.getElementById('btnStartExam').disabled = true;
+}
+
+function buildExamSubjectGrid() {
+  const grid = document.getElementById('examSubjectGrid');
+  // English is excluded from this list (compulsory, auto-added)
+  const available = SUBJECTS.filter(s => s.key !== 'english');
+  grid.innerHTML = available.map(s =>
+    `<div class="subject-chip" data-key="${s.key}" onclick="toggleExamSubject('${s.key}', this)">${s.label}</div>`
+  ).join('');
+}
+
+function toggleExamSubject(key, el) {
+  const idx = examConfig.subjects.indexOf(key);
+  if (idx > -1) {
+    examConfig.subjects.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    if (examConfig.subjects.length >= 3) return;
+    examConfig.subjects.push(key);
+    el.classList.add('selected');
+  }
+  document.querySelectorAll('#examSubjectGrid .subject-chip').forEach(chip => {
+    if (!chip.classList.contains('selected')) {
+      chip.classList.toggle('disabled', examConfig.subjects.length >= 3);
+    }
+  });
+  document.getElementById('examSelectedCount').textContent = examConfig.subjects.length;
+  document.getElementById('btnStartExam').disabled = examConfig.subjects.length < 3;
+}
+
+// ═══════════════════════════════════════════════════════
+// JSON LOADING
+// ═══════════════════════════════════════════════════════
+
+async function loadSubjectQuestions(key) {
+  try {
+    const raw = QUESTION_BANK[key];
+    if (!raw || !raw.length) throw new Error('No data for ' + key);
+    const arr = Array.isArray(raw) ? raw : Object.values(raw).flat();
+    return arr.map(q => normaliseQuestion(q, key));
+  } catch (e) {
+    console.error('Could not load questions for', key, e);
+    return [];
+  }
+}
+
+function normaliseQuestion(q, subjectKey) {
+  let text = q.text || q.question || '';
+  let options, correctIndex;
+
+  if (Array.isArray(q.options)) {
+    // options is array, answer is index (0-3)
+    options = q.options.map(String);
+    correctIndex = typeof q.answer === 'number' ? q.answer : parseInt(q.answer);
+  } else {
+    // options is object {a, b, c, d}, answer is letter
+    const keys = ['a', 'b', 'c', 'd'];
+    options = keys.map(k => String(q.options[k] || ''));
+    const ansLetter = String(q.answer).toLowerCase().trim();
+    correctIndex = keys.indexOf(ansLetter);
+    if (correctIndex < 0) correctIndex = 0;
+  }
+
+  return { text, options, correctIndex, subject: subjectKey };
+}
+
+// ═══════════════════════════════════════════════════════
+// FISHER-YATES SHUFFLE
+// ═══════════════════════════════════════════════════════
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pickRandom(arr, n) {
+  return shuffle(arr).slice(0, n);
+}
+
+/**
+ * Shuffle the options of a question while keeping correctIndex accurate.
+ * Returns a new question object with shuffled options and updated correctIndex.
+ */
+function shuffleOptions(q) {
+  const indices = [0, 1, 2, 3].slice(0, q.options.length);
+  const shuffledIndices = shuffle(indices);
+  const newOptions = shuffledIndices.map(i => q.options[i]);
+  const newCorrectIndex = shuffledIndices.indexOf(q.correctIndex);
+  return { ...q, options: newOptions, correctIndex: newCorrectIndex };
+}
+
+// ═══════════════════════════════════════════════════════
+// START PRACTICE
+// ═══════════════════════════════════════════════════════
+
+async function startPractice() {
+  showLoading(true);
+  state.mode = 'practice';
+
+  try {
+    let questions = [];
+
+    if (practiceConfig.type === 'single') {
+      const all = await loadSubjectQuestions(practiceConfig.singleSubject);
+      const picked = pickRandom(all, 50);
+      questions = picked.map(shuffleOptions);
+      state.examSubjects = [practiceConfig.singleSubject];
+    } else {
+      for (const key of practiceConfig.multipleSubjects) {
+        const all = await loadSubjectQuestions(key);
+        const picked = pickRandom(all, 25);
+        questions.push(...picked.map(shuffleOptions));
+      }
+      questions = shuffle(questions); // mix all
+      state.examSubjects = [...practiceConfig.multipleSubjects];
+    }
+
+    state.questions = questions;
+    state.timerMinutes = practiceConfig.timerMins;
+    logActivity('quiz_start', { mode: 'practice', subjects: state.examSubjects, questionCount: questions.length, timerMins: practiceConfig.timerMins });
+    initQuiz();
+  } catch (e) {
+    alert('Error loading questions. Please try again.');
+    console.error(e);
+  } finally {
+    showLoading(false);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// START EXAM
+// ═══════════════════════════════════════════════
+
+async function startExam() {
+  showLoading(true);
+  state.mode = 'exam';
+
+  try {
+    const allSubjects = ['english', ...examConfig.subjects];
+    const counts = { english: 60 };
+    examConfig.subjects.forEach(s => counts[s] = 40);
+
+    let questions = [];
+    for (const key of allSubjects) {
+      const all = await loadSubjectQuestions(key);
+      const n = counts[key] || 40;
+      const picked = pickRandom(all, n);
+      questions.push(...picked.map(shuffleOptions));
+    }
+
+    state.questions = questions;
+    state.timerMinutes = 120;
+    state.examSubjects = allSubjects;
+    logActivity('quiz_start', { mode: 'exam', subjects: allSubjects, questionCount: questions.length, timerMins: 120 });
+    initQuiz();
+  } catch (e) {
+    alert('Error loading exam questions. Please try again.');
+    console.error(e);
+  } finally {
+    showLoading(false);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// QUIZ INITIALISATION
+// ═══════════════════════════════════════════════
+
+function initQuiz() {
+  state.answers = {};
+  state.flagged = new Set();
+  state.currentIndex = 0;
+  state.warned10 = false;
+  state.warned5 = false;
+  state.warned1 = false;
+  state.secondsLeft = state.timerMinutes * 60;
+  state.startTime = Date.now();
+
+  buildPalette();
+  renderQuestion(0);
+  startTimer();
+  showScreen('screen-quiz');
+  saveSession();
+  // Add sidebar overlay for mobile
+  if (!document.getElementById('sidebarOverlay')) {
+    const ov = document.createElement('div');
+    ov.id = 'sidebarOverlay';
+    ov.className = 'sidebar-overlay';
+    ov.onclick = closeSidebar;
+    document.body.appendChild(ov);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// SIDEBAR TOGGLE (MOBILE)
+// ═══════════════════════════════════════════════
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('quizSidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('open');
+  overlay && overlay.classList.toggle('show', sidebar.classList.contains('open'));
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('quizSidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.remove('open');
+  overlay && overlay.classList.remove('show');
+}
+
+// ═══════════════════════════════════════════════════════
+// QUESTION RENDERING
+// ═══════════════════════════════════════════════════════
+
+function renderQuestion(index) {
+  const q = state.questions[index];
+  if (!q) return;
+
+  state.currentIndex = index;
+
+  // Subject tag
+  const subjLabel = SUBJECTS.find(s => s.key === q.subject)?.label || q.subject;
+  document.getElementById('quizSubjectTag').textContent = subjLabel;
+  document.getElementById('qNumber').textContent = `Q ${index + 1}`;
+  document.getElementById('qSubject').textContent = subjLabel;
+  document.getElementById('qText').textContent = q.text;
+
+  // Options
+  const optList = document.getElementById('optionsList');
+  optList.innerHTML = q.options.map((opt, i) => {
+    const isSelected = state.answers[index] === i;
+    return `
+      <button class="option-btn${isSelected ? ' selected' : ''}" onclick="selectOption(${i})">
+        <span class="option-letter">${LETTERS[i]}</span>
+        <span class="option-text">${opt}</span>
+      </button>
+    `;
+  }).join('');
+
+  // Flag button
+  const flagBtn = document.getElementById('flagBtn');
+  if (state.flagged.has(index)) {
+    flagBtn.classList.add('flagged');
+    flagBtn.textContent = '⚑ Flagged';
+  } else {
+    flagBtn.classList.remove('flagged');
+    flagBtn.textContent = '⚑ Flag';
+  }
+
+  updatePalette();
+  updateProgress();
+  saveSession();
+
+  // Scroll question into view on mobile
+  document.querySelector('.question-wrap').scrollTop = 0;
+}
+
+function selectOption(optIndex) {
+  const prev = state.answers[state.currentIndex];
+  if (prev === optIndex) {
+    // deselect
+    delete state.answers[state.currentIndex];
+  } else {
+    state.answers[state.currentIndex] = optIndex;
+  }
+  renderQuestion(state.currentIndex);
+}
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+
+function prevQuestion() {
+  if (state.currentIndex > 0) renderQuestion(state.currentIndex - 1);
+}
+
+function nextQuestion() {
+  if (state.currentIndex < state.questions.length - 1) {
+    renderQuestion(state.currentIndex + 1);
+  }
+}
+
+function skipQuestion() {
+  nextQuestion();
+}
+
+function flagQuestion() {
+  const idx = state.currentIndex;
+  if (state.flagged.has(idx)) {
+    state.flagged.delete(idx);
+  } else {
+    state.flagged.add(idx);
+  }
+  renderQuestion(idx);
+}
+
+// ═══════════════════════════════════════════════════════
+// PALETTE
+// ═══════════════════════════════════════════════════════
+
+function buildPalette() {
+  const grid = document.getElementById('paletteGrid');
+  grid.innerHTML = state.questions.map((_, i) =>
+    `<button class="pal-btn" id="pal-${i}" onclick="jumpTo(${i})">${i + 1}</button>`
+  ).join('');
+}
+
+function updatePalette() {
+  state.questions.forEach((_, i) => {
+    const btn = document.getElementById(`pal-${i}`);
+    if (!btn) return;
+    btn.className = 'pal-btn';
+    if (i === state.currentIndex) btn.classList.add('current');
+    else if (state.flagged.has(i)) btn.classList.add('flagged');
+    else if (state.answers[i] !== undefined) btn.classList.add('answered');
+  });
+}
+
+function togglePalette() {
+  const section = document.getElementById('questionPaletteSection');
+  const button = document.getElementById('paletteToggleBtn');
+  if (!section || !button) return;
+
+  const collapsed = section.classList.toggle('collapsed');
+  button.textContent = collapsed ? 'Show' : 'Hide';
+  button.setAttribute('aria-expanded', String(!collapsed));
+}
+
+function jumpTo(index) {
+  renderQuestion(index);
+  closeSidebar();
+}
+
+function updateProgress() {
+  const answered = Object.keys(state.answers).length;
+  const total = state.questions.length;
+  const pct = total ? (answered / total) * 100 : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${answered} / ${total} answered`;
+}
+
+// ═══════════════════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════════════════
+
+function startTimer() {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  updateTimerDisplay();
+  state.timerInterval = setInterval(() => {
+    state.secondsLeft--;
+    updateTimerDisplay();
+    checkWarnings();
+    if (state.secondsLeft <= 0) {
+      clearInterval(state.timerInterval);
+      state.timerInterval = null;
+      autoSubmit();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timerCountdown');
+  if (!el) return;
+  const mins = Math.floor(state.secondsLeft / 60);
+  const secs = state.secondsLeft % 60;
+  el.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  el.className = 'timer-display';
+  if (state.secondsLeft <= 60) el.classList.add('danger');
+  else if (state.secondsLeft <= 300) el.classList.add('warning');
+}
+
+function checkWarnings() {
+  const m = Math.floor(state.secondsLeft / 60);
+  const s = state.secondsLeft % 60;
+  if (m === 10 && s === 0 && !state.warned10) {
+    state.warned10 = true;
+    showWarningModal('⏰', '10 Minutes Left', 'You have 10 minutes remaining. Start wrapping up!', false);
+  } else if (m === 5 && s === 0 && !state.warned5) {
+    state.warned5 = true;
+    showWarningModal('⚠️', '5 Minutes Left', 'Only 5 minutes left! Review and submit soon.', false);
+  } else if (m === 1 && s === 0 && !state.warned1) {
+    state.warned1 = true;
+    showWarningModal('🚨', '1 Minute Left!', 'Final minute! Submit now.', false);
+  }
+}
+
+function autoSubmit() {
+  state.endTime = Date.now();
+  showWarningModal('⏱', 'Time Up!', 'Your time has expired. Submitting your answers now.', false, submitExam);
+}
+
+// ═══════════════════════════════════════════════════════
+// SUBMISSION
+// ═══════════════════════════════════════════════
+
+function confirmSubmit() {
+  const answered = Object.keys(state.answers).length;
+  const total = state.questions.length;
+  const unanswered = total - answered;
+  showModal(
+    '📋',
+    'Submit Exam?',
+    `You have answered ${answered} of ${total} questions. ${unanswered > 0 ? `${unanswered} question(s) unanswered.` : 'All questions answered!'} Submit now?`,
+    submitExam
+  );
+}
+
+function submitExam() {
+  closeModal();
+  if (state.timerInterval) {
+    clearInterval(state.timerInterval);
+    state.timerInterval = null;
+  }
+  state.endTime = state.endTime || Date.now();
+  calculateResults();
+  clearSession();
+}
+
+async function calculateResults() {
+  let correct = 0, wrong = 0, skipped = 0;
+  const subjectStats = {};
+
+  state.questions.forEach((q, i) => {
+    const subj = q.subject;
+    if (!subjectStats[subj]) subjectStats[subj] = { correct: 0, total: 0 };
+    subjectStats[subj].total++;
+
+    const userAnswer = state.answers[i];
+    if (userAnswer === undefined) {
+      skipped++;
+    } else if (userAnswer === q.correctIndex) {
+      correct++;
+      subjectStats[subj].correct++;
+    } else {
+      wrong++;
+    }
+  });
+
+  const total = state.questions.length;
+  const pct = total ? Math.round((correct / total) * 100) : 0;
+  const grade = pct >= 80 ? 'A' : pct >= 70 ? 'B' : pct >= 60 ? 'C' : pct >= 50 ? 'D' : 'F';
+  const gradeLabel = { A: 'Excellent! 🏆', B: 'Very Good! 👏', C: 'Good! 🎉', D: 'Average. Keep Going!', F: 'Below Average. Try Again!' }[grade];
+
+  const endT = state.endTime || Date.now();
+  const startT = state.startTime || endT;
+  const timeUsed = Math.max(0, endT - startT);
+  const minsUsed = Math.floor(timeUsed / 60000);
+  const secsUsed = Math.floor((timeUsed % 60000) / 1000);
+
+  // ── Save result to IndexedDB ──
+  try {
+    const profile = await getStudentProfile();
+    const subjectStatsCopy = {};
+    Object.entries(subjectStats).forEach(([k, v]) => {
+      subjectStatsCopy[k] = { ...v, pct: v.total ? Math.round((v.correct / v.total) * 100) : 0 };
+    });
+    await saveResult({
+      studentName : profile ? profile.name  : 'Anonymous',
+      studentClass: profile ? profile.class : '',
+      school      : profile ? profile.school : '',
+      mode        : state.mode,
+      subjects    : state.examSubjects,
+      subjectStats: subjectStatsCopy,
+      totalQuestions: total,
+      correct, wrong, skipped,
+      percentage  : pct,
+      grade,
+      timeUsedSecs: Math.floor(timeUsed / 1000),
+      dateTaken   : new Date().toISOString(),
+      historyQuestions: state.questions.map(q => ({
+        text: q.text,
+        options: q.options,
+        correctIndex: q.correctIndex,
+        subject: q.subject,
+      })),
+      answers: { ...state.answers },
+      flagged: Array.from(state.flagged),
+    });
+    // Show saved banner
+    const banner = document.getElementById('dbSavedBanner');
+    if (banner) { banner.style.display = 'block'; setTimeout(() => banner.style.display = 'none', 4000); }
+    logActivity('quiz_complete', { mode: state.mode, subjects: state.examSubjects, percentage: pct, grade, correct, wrong, skipped });
+  } catch (e) {
+    console.error('Could not save result to DB:', e);
+  }
+
+  // Render results
+  const gradeRing = document.getElementById('gradeRing');
+  gradeRing.className = `grade-ring ${grade}`;
+  document.getElementById('gradeLetter').textContent = grade;
+  document.getElementById('gradeScore').textContent = `${pct}%`;
+  document.getElementById('gradeLabel').textContent = gradeLabel;
+
+  document.getElementById('rsCorrect').textContent = correct;
+  document.getElementById('rsWrong').textContent = wrong;
+  document.getElementById('rsSkipped').textContent = skipped;
+  document.getElementById('rsTime').textContent = `${minsUsed}:${String(secsUsed).padStart(2, '0')}`;
+
+  // Subject breakdown
+  const subjEl = document.getElementById('resultsSubjects');
+  subjEl.innerHTML = `<h4>Subject Breakdown</h4>` + Object.entries(subjectStats).map(([key, stats]) => {
+    const sp = stats.total ? Math.round((stats.correct / stats.total) * 100) : 0;
+    const cls = sp >= 60 ? 'good' : sp >= 40 ? 'ok' : 'bad';
+    const label = SUBJECTS.find(s => s.key === key)?.label || key;
+    return `<div class="sub-result">
+      <span class="sub-result-name">${label}</span>
+      <span class="sub-result-score ${cls}">${stats.correct}/${stats.total} (${sp}%)</span>
+    </div>`;
+  }).join('');
+
+  showScreen('screen-results');
+}
+
+// ═══════════════════════════════════════════════════════
+// REVIEW
+// ═══════════════════════════════════════════════════════
+
+function reviewAnswers() {
+  reviewReturnScreen = 'screen-results';
+  const list = document.getElementById('reviewList');
+  list.innerHTML = state.questions.map((q, i) => {
+    const userAns = state.answers[i];
+    const isCorrect = userAns === q.correctIndex;
+    const isSkipped = userAns === undefined;
+    const status = isSkipped ? 'skipped' : isCorrect ? 'correct' : 'wrong';
+    const statusLabel = isSkipped ? '— Skipped' : isCorrect ? '✓ Correct' : '✗ Wrong';
+    const subjLabel = SUBJECTS.find(s => s.key === q.subject)?.label || q.subject;
+
+    const opts = q.options.map((opt, j) => {
+      let cls = '';
+      if (j === q.correctIndex) cls = 'correct-ans';
+      else if (j === userAns && !isCorrect) cls = 'user-wrong';
+      return `<div class="review-opt ${cls}">
+        <span class="opt-lbl">${LETTERS[j]}</span>
+        <span>${opt}</span>
+        ${j === q.correctIndex ? '<span style="margin-left:auto;font-size:11px;font-weight:700">✓ Correct</span>' : ''}
+        ${j === userAns && !isCorrect ? '<span style="margin-left:auto;font-size:11px;font-weight:700">✗ Your answer</span>' : ''}
+      </div>`;
+    }).join('');
+
+    return `<div class="review-item">
+      <div class="review-meta">
+        <span class="review-num">Q${i + 1}</span>
+        <span class="review-subj">${subjLabel}</span>
+        <span class="review-status ${status}">${statusLabel}</span>
+      </div>
+      <div class="review-q">${q.text}</div>
+      <div class="review-options">${opts}</div>
+    </div>`;
+  }).join('');
+
+  showScreen('screen-review');
+}
+
+function closeReview() {
+  showScreen(reviewReturnScreen || 'screen-results');
+}
+
+async function openHistoryReview(id) {
+  try {
+    const result = await getSingleResult(id);
+    if (!result || !result.historyQuestions || !result.answers) {
+      showModal('⚠️', 'Review unavailable', 'This history entry does not contain full question review data.', closeModal);
+      return;
+    }
+
+    state.questions = result.historyQuestions;
+    state.answers = result.answers || {};
+    state.flagged = new Set(result.flagged || []);
+    state.currentIndex = 0;
+    reviewReturnScreen = 'screen-history';
+    reviewAnswers();
+  } catch (e) {
+    console.error('openHistoryReview error:', e);
+    showModal('⚠️', 'Error', 'Could not load this history entry for review.', closeModal);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// RETRY
+// ═══════════════════════════════════════════════════════
+
+async function retryQuiz() {
+  showLoading(true);
+  try {
+    if (state.mode === 'exam') {
+      await startExam();
+    } else if (state.mode === 'practice') {
+      await startPractice();
+    }
+  } finally {
+    showLoading(false);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════════════
+
+function showModal(icon, title, msg, onConfirm, confirmText = 'Confirm') {
+  document.getElementById('modalIcon').textContent = icon;
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalMsg').textContent = msg;
+  const confirmBtn = document.getElementById('modalConfirm');
+  confirmBtn.textContent = confirmText;
+  confirmBtn.onclick = onConfirm || closeModal;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function showWarningModal(icon, title, msg, closeable = true, onConfirm = null) {
+  document.getElementById('modalIcon').textContent = icon;
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalMsg').textContent = msg;
+  const confirmBtn = document.getElementById('modalConfirm');
+  confirmBtn.textContent = 'OK, Got it';
+  confirmBtn.onclick = () => {
+    closeModal();
+    if (onConfirm) onConfirm();
+  };
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.add('hidden');
+  document.getElementById('modalConfirm').textContent = 'Confirm';
+  document.getElementById('modalConfirm').onclick = null;
+}
+
+function promptQuizConsent(mode) {
+  const title = mode === 'exam' ? 'Exam Consent' : 'Practice Consent';
+  const msg = 'Please read the instructions before starting. This quiz is timed and your progress will be recorded. Do not refresh the page once the quiz begins. If you agree, press Start Quiz to continue.';
+  const onConfirm = async () => {
+    closeModal();
+    if (mode === 'exam') {
+      await startExam();
+    } else {
+      await startPractice();
+    }
+  };
+
+  showModal('📝', title, msg, onConfirm, 'Start Quiz');
+}
+
+// ═══════════════════════════════════════════════════════
+// FULLSCREEN
+// ═══════════════════════════════════════════════════════
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// SESSION PERSISTENCE
+// ═══════════════════════════════════════════════════════
+
+function saveSession() {
+  try {
+    const session = {
+      mode: state.mode,
+      practiceType: state.practiceType,
+      questions: state.questions,
+      answers: state.answers,
+      flagged: [...state.flagged],
+      currentIndex: state.currentIndex,
+      secondsLeft: state.secondsLeft,
+      startTime: state.startTime,
+      timerMinutes: state.timerMinutes,
+      examSubjects: state.examSubjects,
+      practiceConfig: { ...practiceConfig },
+      examConfig: { ...examConfig },
+      theme: document.body.getAttribute('data-theme') || 'light',
+    };
+    localStorage.setItem('preplite-session', JSON.stringify(session));
+  } catch (e) {}
+}
+
+function tryRestoreSession() {
+  try {
+    const raw = localStorage.getItem('preplite-session');
+    if (!raw) return;
+    const session = JSON.parse(raw);
+    if (!session || !session.questions || !session.questions.length) return;
+
+    if (session.theme) {
+      document.body.setAttribute('data-theme', session.theme);
+      localStorage.setItem('preplite-theme', session.theme);
+      updateThemeIcons(session.theme);
+    }
+
+    // Restore
+    state.mode = session.mode;
+    state.practiceType = session.practiceType;
+    state.questions = session.questions;
+    state.answers = session.answers || {};
+    state.flagged = new Set(session.flagged || []);
+    state.currentIndex = session.currentIndex || 0;
+    state.secondsLeft = session.secondsLeft || 0;
+    state.startTime = session.startTime;
+    state.timerMinutes = session.timerMinutes;
+    state.examSubjects = session.examSubjects || [];
+    if (session.practiceConfig) practiceConfig = session.practiceConfig;
+    if (session.examConfig) examConfig = session.examConfig;
+
+    if (state.secondsLeft > 0) {
+      showModal('🔄', 'Restore Session?', 'You have an unfinished exam. Would you like to continue?', () => {
+        closeModal();
+        buildPalette();
+        renderQuestion(state.currentIndex);
+        startTimer();
+        showScreen('screen-quiz');
+      });
+    } else {
+      clearSession();
+    }
+  } catch (e) {
+    clearSession();
+  }
+}
+
+function clearSession() {
+  localStorage.removeItem('preplite-session');
+}
+
+function resetState() {
+  state.mode = null;
+  state.practiceType = null;
+  state.questions = [];
+  state.answers = {};
+  state.flagged = new Set();
+  state.currentIndex = 0;
+  state.timerInterval = null;
+  state.secondsLeft = 0;
+  state.startTime = null;
+  state.endTime = null;
+  state.examSubjects = [];
+  state.warned10 = false;
+  state.warned5 = false;
+  state.warned1 = false;
+}
+
+// ═══════════════════════════════════════════════════════
+// LOADING
+// ═══════════════════════════════════════════════════════
+
+function showLoading(show) {
+  document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+}
+
+// ═══════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════
+
+document.addEventListener('keydown', (e) => {
+  const active = document.querySelector('.screen.active');
+  if (!active || active.id !== 'screen-quiz') return;
+
+  switch (e.key) {
+    case 'ArrowRight': case 'ArrowDown': nextQuestion(); break;
+    case 'ArrowLeft':  case 'ArrowUp':   prevQuestion(); break;
+    case '1': case 'a': case 'A': selectOption(0); break;
+    case '2': case 'b': case 'B': selectOption(1); break;
+    case '3': case 'c': case 'C': selectOption(2); break;
+    case '4': case 'd': case 'D': selectOption(3); break;
+    case 'f': case 'F': flagQuestion(); break;
+    case 'F11': e.preventDefault(); toggleFullscreen(); break;
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+// EXPOSE ALL FUNCTIONS TO WINDOW (MIT App Inventor WebViewer)
+// ═══════════════════════════════════════════════════════
+window.goHome = goHome;
+window.showScreen = showScreen;
+
+// Fallback click binding for WebViewer / embedded webviews
+if (typeof document !== 'undefined') {
+  const bindGoHomeButtons = () => {
+    document.querySelectorAll('[data-go-home]').forEach(btn => {
+      btn.addEventListener('click', event => {
+        event.preventDefault();
+        goHome();
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindGoHomeButtons);
+  } else {
+    bindGoHomeButtons();
+  }
+}
+window.toggleTheme = toggleTheme;
+window.openPracticeSetup = openPracticeSetup;
+window.openExamSetup = openExamSetup;
+window.selectPracticeType = selectPracticeType;
+window.setTimer = setTimer;
+window.showCustomTimer = showCustomTimer;
+window.applyCustomTimer = applyCustomTimer;
+window.startPractice = startPractice;
+window.startExam = startExam;
+window.prevQuestion = prevQuestion;
+window.nextQuestion = nextQuestion;
+window.skipQuestion = skipQuestion;
+window.flagQuestion = flagQuestion;
+window.confirmSubmit = confirmSubmit;
+window.reviewAnswers = reviewAnswers;
+window.retryQuiz = retryQuiz;
+window.closeModal = closeModal;
+window.jumpTo = jumpTo;
+window.selectOption = selectOption;
+window.toggleMultiSubject = toggleMultiSubject;
+window.toggleExamSubject = toggleExamSubject;
+window.handleBackButton = handleBackButton;
+window.setupBackButtonHandler = setupBackButtonHandler;
+// DB-related
+window.openStudentEdit = openStudentEdit;
+window.closeStudentEdit = closeStudentEdit;
+window.saveStudentEditForm = saveStudentEditForm;
+window.openHistory = openHistory;
+window.confirmClearHistory = confirmClearHistory;
+
+// ═══════════════════════════════════════════════════════
+// BOTTOM NAVIGATION
+// ═══════════════════════════════════════════════════════
+
+const SCREENS_WITH_NAV = ['screen-landing', 'screen-history', 'screen-profile', 'screen-practice-setup', 'screen-exam-setup', 'screen-results'];
+const NAV_HIDE_ON = ['screen-quiz', 'screen-review'];
+
+const NAV_MAP = {
+  home:     { screen: 'screen-landing' },
+  practice: { screen: 'screen-practice-setup' },
+  exam:     { screen: 'screen-exam-setup' },
+  history:  { screen: 'screen-history' },
+  profile:  { screen: 'screen-profile' },
+};
+
+function navTo(tab) {
+  const { screen } = NAV_MAP[tab];
+  if (tab === 'history') {
+    openHistory(); // uses existing logic
+  } else if (tab === 'practice') {
+    openPracticeSetup();
+  } else if (tab === 'exam') {
+    openExamSetup();
+  } else if (tab === 'profile') {
+    showScreen('screen-profile');
+    renderProfileScreen();
+  } else {
+    showScreen(screen);
+  }
+  setActiveNav(tab);
+}
+
+function setActiveNav(tab) {
+  document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('bnav-' + tab);
+  if (btn) btn.classList.add('active');
+}
+
+function updateNavVisibility() {
+  const active = document.querySelector('.screen.active');
+  const nav = document.getElementById('bottomNav');
+  if (!nav || !active) return;
+  const hide = NAV_HIDE_ON.includes(active.id);
+  nav.classList.toggle('hidden-nav', hide);
+}
+
+// Patch showScreen to also manage nav
+const _origShowScreen = showScreen;
+window.showScreen = function(id) {
+  _origShowScreen(id);
+  updateNavVisibility();
+  // Sync active nav tab
+  const tabMap = {
+    'screen-landing': 'home',
+    'screen-practice-setup': 'practice',
+    'screen-exam-setup': 'exam',
+    'screen-history': 'history',
+    'screen-profile': 'profile',
+  };
+  const tab = tabMap[id];
+  if (tab) setActiveNav(tab);
+};
+
+// ═══════════════════════════════════════════════════════
+// PROFILE SCREEN RENDERING
+// ═══════════════════════════════════════════════════════
+
+async function renderProfileScreen() {
+  const body = document.getElementById('profileBody');
+  if (!body) return;
+  body.innerHTML = '<div style="text-align:center;padding:48px;color:var(--text2)">Loading...</div>';
+
+  try {
+    const [profile, results] = await Promise.all([getStudentProfile(), getAllResults()]);
+
+    let heroHTML = '';
+    if (profile && profile.name) {
+      const initials = profile.name.trim().split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      heroHTML = `
+        <div class="profile-hero">
+          <div class="profile-avatar-lg">${initials}</div>
+          <div class="profile-name-lg">${profile.name}</div>
+          <div class="profile-school-lg">${profile.school || 'No school set'}</div>
+          <button class="profile-edit-btn" onclick="openStudentEdit()">✏️ Edit Profile</button>
+        </div>`;
+    } else {
+      heroHTML = `
+        <div class="profile-no-data">
+          <div class="big-icon">🎓</div>
+          <h3>No Profile Yet</h3>
+          <p>Add your name and school to start tracking your progress</p>
+          <button class="profile-edit-btn" onclick="openStudentEdit()">+ Create Profile</button>
+        </div>`;
+    }
+
+    // Stats
+    let statsHTML = '';
+    let subjectHTML = '';
+    let gradeDistHTML = '';
+    let activityHTML = '';
+
+    if (results.length > 0) {
+      const total = results.length;
+      const avgPct = Math.round(results.reduce((s, r) => s + (r.percentage || 0), 0) / total);
+      const best   = Math.max(...results.map(r => r.percentage || 0));
+      const totalCorrect = results.reduce((s, r) => s + (r.correct || 0), 0);
+      const totalQs = results.reduce((s, r) => s + ((r.correct||0)+(r.wrong||0)+(r.skipped||0)), 0);
+      const practiceCount = results.filter(r => r.mode === 'practice').length;
+      const examCount = results.filter(r => r.mode === 'exam').length;
+
+      statsHTML = `
+        <p class="profile-section-title">Overall Performance</p>
+        <div class="profile-stats-grid">
+          <div class="pstat-card">
+            <div class="pstat-icon">📝</div>
+            <div class="pstat-val blue">${total}</div>
+            <div class="pstat-label">Total Attempts</div>
+          </div>
+          <div class="pstat-card">
+            <div class="pstat-icon">📈</div>
+            <div class="pstat-val green">${avgPct}%</div>
+            <div class="pstat-label">Average Score</div>
+          </div>
+          <div class="pstat-card">
+            <div class="pstat-icon">🏆</div>
+            <div class="pstat-val yellow">${best}%</div>
+            <div class="pstat-label">Best Score</div>
+          </div>
+          <div class="pstat-card">
+            <div class="pstat-icon">✅</div>
+            <div class="pstat-val green">${totalQs > 0 ? Math.round(totalCorrect/totalQs*100) : 0}%</div>
+            <div class="pstat-label">Accuracy Rate</div>
+          </div>
+        </div>
+        <div class="activity-row">
+          <div class="activity-card">
+            <div class="big-num">${practiceCount}</div>
+            <div class="act-label">📚 Practice Sessions</div>
+          </div>
+          <div class="activity-card">
+            <div class="big-num">${examCount}</div>
+            <div class="act-label">🎯 Exam Sessions</div>
+          </div>
+        </div>`;
+
+      // Grade distribution
+      const grades = { A: 0, B: 0, C: 0, D: 0, F: 0 };
+      results.forEach(r => { if (grades[r.grade] !== undefined) grades[r.grade]++; });
+      gradeDistHTML = `
+        <p class="profile-section-title">Grade Distribution</p>
+        <div class="grade-dist-row">
+          ${Object.entries(grades).map(([g, c]) => `
+            <div class="grade-dist-item">
+              <div class="gd-grade ${g}">${g}</div>
+              <div class="gd-count">${c}</div>
+              <div class="gd-label">times</div>
+            </div>`).join('')}
+        </div>`;
+
+      // Subject performance
+      const subjectMap = {};
+      results.forEach(r => {
+        (r.subjects || []).forEach(sk => {
+          if (!subjectMap[sk]) subjectMap[sk] = { total: 0, sum: 0 };
+          subjectMap[sk].sum += r.percentage || 0;
+          subjectMap[sk].total++;
+        });
+      });
+      const subjectEntries = Object.entries(subjectMap)
+        .map(([k, v]) => ({ key: k, avg: Math.round(v.sum / v.total), count: v.total }))
+        .sort((a, b) => b.avg - a.avg)
+        .slice(0, 8);
+
+      if (subjectEntries.length > 0) {
+        subjectHTML = `
+          <p class="profile-section-title">Subject Performance</p>
+          <div class="subject-perf-list">
+            ${subjectEntries.map(s => {
+              const label = SUBJECTS.find(x => x.key === s.key)?.label || s.key;
+              return `<div class="subj-perf-row">
+                <div class="subj-perf-name">${label}</div>
+                <div class="subj-perf-bar-wrap">
+                  <div class="subj-perf-bar" style="width:${s.avg}%"></div>
+                </div>
+                <div class="subj-perf-pct">${s.avg}%</div>
+              </div>`;
+            }).join('')}
+          </div>`;
+      }
+    } else {
+      statsHTML = `
+        <div class="history-empty" style="margin-bottom:24px;">
+          <div style="font-size:40px;margin-bottom:12px;">📭</div>
+          <p>No quiz results yet. Complete a quiz to see your performance stats here.</p>
+        </div>`;
+    }
+
+    const actionsHTML = `
+      <p class="profile-section-title">Quick Actions</p>
+      <div class="profile-actions">
+        <button class="prof-action-btn" onclick="navTo('practice')">
+          <span class="pab-icon">📚</span>
+          <span class="pab-text"><strong>Start Practice</strong><small>Self-paced mode</small></span>
+          <span class="pab-arrow">›</span>
+        </button>
+        <button class="prof-action-btn" onclick="navTo('exam')">
+          <span class="pab-icon">🎯</span>
+          <span class="pab-text"><strong>Start Exam</strong><small>WAEC simulation</small></span>
+          <span class="pab-arrow">›</span>
+        </button>
+        <button class="prof-action-btn" onclick="navTo('history')">
+          <span class="pab-icon">📊</span>
+          <span class="pab-text"><strong>View History</strong><small>All past attempts</small></span>
+          <span class="pab-arrow">›</span>
+        </button>
+        <button class="prof-action-btn danger" onclick="confirmClearHistory()">
+          <span class="pab-icon">🗑</span>
+          <span class="pab-text"><strong>Clear All History</strong><small>Permanently delete records</small></span>
+          <span class="pab-arrow">›</span>
+        </button>
+      </div>`;
+
+    body.innerHTML = heroHTML + statsHTML + gradeDistHTML + subjectHTML + actionsHTML;
+  } catch (e) {
+    console.error('renderProfileScreen error:', e);
+    body.innerHTML = '<p style="padding:24px;color:var(--red)">Could not load profile. Please try again.</p>';
+  }
+}
+
+window.navTo = navTo;
+window.renderProfileScreen = renderProfileScreen;
+window.setActiveNav = setActiveNav;
+window.logActivity = logActivity;
+window.getActivityLog = getActivityLog;
+
+// Init nav on page load
+document.addEventListener('DOMContentLoaded', () => {
+  updateNavVisibility();
+});
+
+
+async function refreshStudentCard() {
+  try {
+    const profile = await getStudentProfile();
+    const view  = document.getElementById('studentView');
+    const setup = document.getElementById('studentSetup');
+    if (!view || !setup) return;
+
+    if (profile && profile.name) {
+      // Show view mode
+      view.style.display  = 'flex';
+      setup.style.display = 'none';
+
+      const initials = profile.name.trim().split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('studentAvatar').textContent      = initials;
+      document.getElementById('studentNameDisplay').textContent = profile.name;
+
+      const metaParts = [];
+      if (profile.school) metaParts.push(profile.school);
+      document.getElementById('studentMetaDisplay').textContent = metaParts.join(' · ') || 'No school set';
+    } else {
+      view.style.display  = 'none';
+      setup.style.display = 'flex';
+    }
+  } catch (e) {
+    console.error('refreshStudentCard error:', e);
+  }
+}
+
+function openStudentEdit() {
+  getStudentProfile().then(profile => {
+    document.getElementById('sfName').value   = profile?.name   || '';
+    document.getElementById('sfSchool').value = profile?.school || '';
+    document.getElementById('studentEditTitle').textContent = profile?.name ? 'Edit Profile' : 'Create Profile';
+    document.getElementById('studentEditOverlay').classList.remove('hidden');
+  }).catch(() => {
+    document.getElementById('studentEditOverlay').classList.remove('hidden');
+  });
+}
+
+function closeStudentEdit() {
+  document.getElementById('studentEditOverlay').classList.add('hidden');
+}
+
+async function saveStudentEditForm() {
+  const name   = document.getElementById('sfName').value.trim();
+  const school = document.getElementById('sfSchool').value.trim();
+
+  if (!name) {
+    document.getElementById('sfName').focus();
+    document.getElementById('sfName').style.borderColor = 'var(--red)';
+    return;
+  }
+  document.getElementById('sfName').style.borderColor = '';
+
+  try {
+    await saveStudentProfile({ name, school });
+    logActivity('profile_save', { name, school });
+    closeStudentEdit();
+    await refreshStudentCard();
+    // Re-render profile screen immediately if it's visible
+    // so the "No Profile Yet" placeholder swaps out instantly
+    const profileScreen = document.getElementById('screen-profile');
+    if (profileScreen && profileScreen.classList.contains('active')) {
+      await renderProfileScreen();
+    }
+  } catch (e) {
+    alert('Could not save profile. Please try again.');
+    console.error(e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// HISTORY SCREEN
+// ═══════════════════════════════════════════════
+
+async function openHistory() {
+  showScreen('screen-history');
+  showLoading(true);
+  try {
+    const [profile, results] = await Promise.all([getStudentProfile(), getAllResults()]);
+
+    // Heading
+    const nameEl = document.getElementById('historyStudentName');
+    if (nameEl) nameEl.textContent = profile?.name ? `Results for ${profile.name}` : 'All past quiz results';
+
+    renderHistorySummary(results);
+    renderHistoryList(results);
+  } catch (e) {
+    console.error('openHistory error:', e);
+    document.getElementById('historyList').innerHTML = '<p class="history-empty">Could not load history.</p>';
+  } finally {
+    showLoading(false);
+  }
+}
+
+function renderHistorySummary(results) {
+  const el = document.getElementById('historySummary');
+  if (!results.length) { el.innerHTML = ''; return; }
+
+  const avgPct   = Math.round(results.reduce((s, r) => s + (r.percentage || 0), 0) / results.length);
+  const best     = Math.max(...results.map(r => r.percentage || 0));
+  const gradeMap = { A: 0, B: 0, C: 0, D: 0, F: 0 };
+  results.forEach(r => { if (gradeMap[r.grade] !== undefined) gradeMap[r.grade]++; });
+  const topGrade = Object.entries(gradeMap).sort((a,b)=>b[1]-a[1])[0][0];
+
+  el.innerHTML = `
+    <div class="hist-stat-card">
+      <span class="hist-stat-num">${results.length}</span>
+      <span class="hist-stat-lbl">Total Attempts</span>
+    </div>
+    <div class="hist-stat-card">
+      <span class="hist-stat-num">${avgPct}%</span>
+      <span class="hist-stat-lbl">Average Score</span>
+    </div>
+    <div class="hist-stat-card">
+      <span class="hist-stat-num">${best}%</span>
+      <span class="hist-stat-lbl">Best Score</span>
+    </div>
+    <div class="hist-stat-card">
+      <span class="hist-stat-num grade-${topGrade}">${topGrade}</span>
+      <span class="hist-stat-lbl">Most Common Grade</span>
+    </div>
+  `;
+}
+
+function renderHistoryList(results) {
+  const el = document.getElementById('historyList');
+  if (!results.length) {
+    el.innerHTML = `<div class="history-empty">
+      <div style="font-size:48px;margin-bottom:12px;">📭</div>
+      <p>No results yet. Complete a quiz to see your history here.</p>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = results.map((r, idx) => {
+    const date = new Date(r.dateTaken).toLocaleDateString('en-NG', { day:'numeric', month:'short', year:'numeric' });
+    const time = new Date(r.dateTaken).toLocaleTimeString('en-NG', { hour:'2-digit', minute:'2-digit' });
+    const mins = Math.floor((r.timeUsedSecs || 0) / 60);
+    const secs = (r.timeUsedSecs || 0) % 60;
+    const subjectLabels = (r.subjects || []).map(k => SUBJECTS.find(s => s.key === k)?.label || k).join(', ');
+    const modeLabel = r.mode === 'exam' ? '🎯 Exam' : '📚 Practice';
+    const gradeClass = r.grade === 'A' ? 'good' : r.grade === 'B' || r.grade === 'C' ? 'ok' : 'bad';
+
+    return `
+    <div class="hist-record">
+      <div class="hist-record-top">
+        <div class="hist-grade grade-ring-sm ${r.grade}">${r.grade}</div>
+        <div class="hist-record-info">
+          <div class="hist-record-title">${modeLabel} · ${subjectLabels}</div>
+          <div class="hist-record-date">${date} at ${time}</div>
+        </div>
+        <div class="hist-record-score ${gradeClass}">${r.percentage}%</div>
+      </div>
+      <div class="hist-record-stats">
+        <span>✓ ${r.correct} Correct</span>
+        <span>✗ ${r.wrong} Wrong</span>
+        <span>— ${r.skipped} Skipped</span>
+        <span>⏱ ${mins}:${String(secs).padStart(2,'0')}</span>
+      </div>
+      <div class="hist-record-actions">
+        <button class="hist-view-btn" onclick="openHistoryReview(${r.id})">👁 View</button>
+        <button class="hist-delete-btn" onclick="deleteHistoryRecord(${r.id})">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function deleteHistoryRecord(id) {
+  try {
+    await deleteResult(id);
+    const results = await getAllResults();
+    renderHistorySummary(results);
+    renderHistoryList(results);
+  } catch (e) { console.error(e); }
+}
+
+function confirmClearHistory() {
+  showModal('🗑', 'Clear All History?', 'This will permanently delete all your quiz records. This cannot be undone.', async () => {
+    closeModal();
+    try {
+      await clearAllResults();
+      const results = await getAllResults();
+      renderHistorySummary(results);
+      renderHistoryList(results);
+    } catch (e) { console.error(e); }
+  });
+}
+  </script>
+</body>
+</html>
